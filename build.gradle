@@ -61,7 +61,7 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
-    implementation "frckit:FRCKit-SimulationClient:0.0.3"
+    implementation "frckit:FRCKit-SimulationClient:0.0.6"
 
 
     testImplementation 'junit:junit:4.12'
@@ -77,9 +77,14 @@ dependencies {
 // knows where to look for our Robot Class.
 jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+    if (gradle.startParameter.taskNames.contains("simulateJava") || gradle.startParameter.taskNames.contains("simulateExternalJava")) {
+        manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest("frc.robot.SimulatorMain")
+    } else {
+        manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+    }
 }
 
+/*
 simulateExternalJava.doLast {
     def file = new File("$buildDir/${ExternalSimulationMergeTask.CONTAINER_FOLDER}/${project.name}_java.json");
     def json = new JsonSlurper().parseText(file.text);
@@ -91,3 +96,4 @@ simulateExternalJava.doLast {
         builder.writeTo(it)
     }
 }
+*/
