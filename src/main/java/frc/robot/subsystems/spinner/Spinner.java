@@ -26,6 +26,6 @@ public class Spinner extends SubsystemBase {
   }
 
   public void setPercentOutput(double output) {
-    io.setOutputVolts(output / 12);
+    io.setOutputVolts(output * 12);
   }
 }
