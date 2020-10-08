@@ -5,23 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.drive;
+package frc.robot.subsystems.spinner;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frckit.simulation.devices.SimSimpleMotorController;
 
-public class DriveTrain extends SubsystemBase {
-  public DriveTrainIO io;
+/**
+ * Simulator implementation of SpinnerIO
+ */
+public class SpinnerIOSim implements SpinnerIO {
+    SimSimpleMotorController motor = new SimSimpleMotorController(2);
 
-  /**
-   * Creates a new ExampleSubsystem.
-   */
-  public DriveTrain(DriveTrainIO io) {
-    this.io = io;
-    io.setup();
-  }
+    @Override
+    public void setup() {
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    @Override
+    public void setOutputVolts(double voltage) {
+        motor.setOutputVoltage(voltage);
+    }
 }

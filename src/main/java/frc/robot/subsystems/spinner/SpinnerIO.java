@@ -5,20 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.spinner;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+/**
+ * Used in spinner subsystem to interface to real hardware or simulator
+ */
+public interface SpinnerIO {
+    public void setup();
 
-public class ExampleSubsystem extends SubsystemBase {
-  /**
-   * Creates a new ExampleSubsystem.
-   */
-  public ExampleSubsystem() {
-
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    public void setOutputVolts(double voltage);
 }
