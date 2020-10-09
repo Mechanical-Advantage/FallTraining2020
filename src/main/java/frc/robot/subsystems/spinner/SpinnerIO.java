@@ -11,7 +11,9 @@ package frc.robot.subsystems.spinner;
  * Used in spinner subsystem to interface to real hardware or simulator
  */
 public interface SpinnerIO {
-    public void setup();
+    public default void setup() {
+    };
 
-    public void setOutputVolts(double voltage);
+    public default void setOutputVolts(double voltage) {
+    };
 }
