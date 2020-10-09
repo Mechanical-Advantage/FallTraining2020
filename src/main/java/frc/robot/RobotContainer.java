@@ -32,7 +32,8 @@ public class RobotContainer {
         break;
 
       default:
-        spinner = new Spinner(new SpinnerIODummy());
+        spinner = new Spinner(new SpinnerIO() {
+        });
     }
 
     configureInputs();
