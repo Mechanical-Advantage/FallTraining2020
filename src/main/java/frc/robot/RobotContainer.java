@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.RunSpinner;
 import frc.robot.subsystems.spinner.*;
+import frckit.simulation.devices.SimTimer;
+import frckit.util.StoredDoubleSupplier;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -20,7 +22,8 @@ import frc.robot.subsystems.spinner.*;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private Spinner spinner;
+  private final Spinner spinner;
+  private final StoredDoubleSupplier timestamp;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -29,14 +32,20 @@ public class RobotContainer {
     switch (Constants.getRobot()) {
       case SIM_NOTBOT:
         spinner = new Spinner(new SpinnerIOSim());
+        timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
         break;
 
       default:
         spinner = new Spinner(new SpinnerIO() {
         });
+        timestamp = new StoredDoubleSupplier(() -> 0.0);
     }
 
     configureInputs();
+  }
+
+  public void update() {
+    timestamp.update();
   }
 
   /**
