@@ -27,7 +27,7 @@ public class OI {
         runForwardsFastButton = new JoystickButton(controller, 2);
     }
 
-    public Trigger getRunFowardsFastButton() {
+    public Trigger getRunForwardsFastButton() {
         return runForwardsFastButton;
     }
 }
