@@ -12,12 +12,14 @@ import frc.robot.subsystems.spinner.Spinner;
 
 public class RunSpinner extends CommandBase {
   private final Spinner spinner;
+  private double speed;
 
   /**
    * Creates a new RunSpinner.
    */
-  public RunSpinner(Spinner spinner) {
+  public RunSpinner(Spinner spinner, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.speed = speed;
     this.spinner = spinner;
     addRequirements(spinner);
   }
@@ -25,7 +27,8 @@ public class RunSpinner extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    spinner.setPercentOutput(1);
+
+    spinner.setPercentOutput(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -60,7 +60,13 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureInputs() {
-    spinner.setDefaultCommand(new RunSpinner(spinner));
+    // spinner.setDefaultCommand(new RunSpinner(spinner));
+    // oi.getRunForwardsFastButton().whenActive(new RunSpinner(spinner));//Maps a
+    // button to a command
+    oi.getRunForwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, 1.0));
+    oi.getRunForwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, 0.3));
+    oi.getRunBackwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, -1.0));
+    oi.getRunBackwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, -0.3));
   }
 
   /**
