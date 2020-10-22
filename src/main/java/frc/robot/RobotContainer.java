@@ -21,6 +21,9 @@ import frckit.util.StoredDoubleSupplier;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+  private OI oi;
+
   // The robot's subsystems and commands are defined here...
   private final Spinner spinner;
   private final StoredDoubleSupplier timestamp;
@@ -29,6 +32,8 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    oi = new OI(0);
+
     switch (Constants.getRobot()) {
       case SIM_NOTBOT:
         spinner = new Spinner(new SpinnerIOSim());
