@@ -21,6 +21,9 @@ import frckit.util.StoredDoubleSupplier;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+  private OI oi;
+
   // The robot's subsystems and commands are defined here...
   private final Spinner spinner;
   private final StoredDoubleSupplier timestamp;
@@ -29,16 +32,18 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    switch (Constants.getRobot()) {
-      case SIM_NOTBOT:
-        spinner = new Spinner(new SpinnerIOSim());
-        timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
-        break;
+    oi = new OI(0);
 
-      default:
-        spinner = new Spinner(new SpinnerIO() {
-        });
-        timestamp = new StoredDoubleSupplier(() -> 0.0);
+    switch (Constants.getRobot()) {
+    case SIM_NOTBOT:
+      spinner = new Spinner(new SpinnerIOSim());
+      timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
+      break;
+
+    default:
+      spinner = new Spinner(new SpinnerIO() {
+      });
+      timestamp = new StoredDoubleSupplier(() -> 0.0);
     }
 
     configureInputs();
@@ -55,7 +60,11 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureInputs() {
-    spinner.setDefaultCommand(new RunSpinner(spinner));
+    oi.getRunForwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, 1));
+    oi.getRunBackwardsfastButton().whileActiveContinuous(new RunSpinner(spinner, -1));
+    oi.getRunForwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, 0.4));
+    oi.getRunBackwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, -0.4));
+
   }
 
   /**
