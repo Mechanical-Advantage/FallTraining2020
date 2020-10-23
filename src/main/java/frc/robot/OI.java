@@ -20,14 +20,32 @@ public class OI {
     private Joystick controller;
 
     private Button runForwardsFastButton;
+    private Button runBackwardsFastButton;
+    private Button runForwardsSlowButton;
+    private Button runBackwardsSlowButton;
 
     public OI(int id) {
         controller = new Joystick(id);
 
         runForwardsFastButton = new JoystickButton(controller, 2);
+        runBackwardsFastButton = new JoystickButton(controller, 4);
+        runForwardsSlowButton = new JoystickButton(controller, 3);
+        runBackwardsSlowButton = new JoystickButton(controller, 1);
     }
 
     public Trigger getRunForwardsFastButton() {
         return runForwardsFastButton;
+    }
+
+    public Trigger getRunBackwardsFastButton() {
+        return runBackwardsFastButton;
+    }
+
+    public Trigger getRunForwardsSlowButton() {
+        return runForwardsSlowButton;
+    }
+
+    public Trigger getRunBackwardsSlowButton() {
+        return runBackwardsSlowButton;
     }
 }

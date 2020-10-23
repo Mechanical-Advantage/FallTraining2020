@@ -35,15 +35,15 @@ public class RobotContainer {
     oi = new OI(0);
 
     switch (Constants.getRobot()) {
-      case SIM_NOTBOT:
-        spinner = new Spinner(new SpinnerIOSim());
-        timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
-        break;
+    case SIM_NOTBOT:
+      spinner = new Spinner(new SpinnerIOSim());
+      timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
+      break;
 
-      default:
-        spinner = new Spinner(new SpinnerIO() {
-        });
-        timestamp = new StoredDoubleSupplier(() -> 0.0);
+    default:
+      spinner = new Spinner(new SpinnerIO() {
+      });
+      timestamp = new StoredDoubleSupplier(() -> 0.0);
     }
 
     configureInputs();
@@ -60,7 +60,11 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureInputs() {
-    spinner.setDefaultCommand(new RunSpinner(spinner));
+    // spinner.setDefaultCommand(new RunSpinner(spinner));
+    oi.getRunForwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, 1.0));
+    oi.getRunBackwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, -1.0));
+    oi.getRunForwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, 0.5));
+    oi.getRunBackwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, -0.5));
   }
 
   /**
