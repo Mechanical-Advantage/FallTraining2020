@@ -16,16 +16,19 @@ public class RunSpinner extends CommandBase {
   /**
    * Creates a new RunSpinner.
    */
-  public RunSpinner(Spinner spinner) {
+
+   private double percentOut;
+  public RunSpinner(Spinner spinner, double percentOut) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.spinner = spinner;
+    this.percentOut = percentOut;
     addRequirements(spinner);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    spinner.setPercentOutput(1);
+    spinner.setPercentOutput(percentOut);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
