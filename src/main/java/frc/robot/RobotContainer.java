@@ -22,11 +22,12 @@ import frckit.util.StoredDoubleSupplier;
  */
 public class RobotContainer {
 
-  private OI oi;
+  private final OI oi;
 
   // The robot's subsystems and commands are defined here...
   private final Spinner spinner;
   private final StoredDoubleSupplier timestamp;
+  private final StoredDoubleSupplier percentOutput;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -38,12 +39,14 @@ public class RobotContainer {
     case SIM_NOTBOT:
       spinner = new Spinner(new SpinnerIOSim());
       timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
+      percentOutput = new StoredDoubleSupplier(oi::getRightDriveX);
       break;
 
     default:
       spinner = new Spinner(new SpinnerIO() {
       });
       timestamp = new StoredDoubleSupplier(() -> 0.0);
+      percentOutput = new StoredDoubleSupplier(() -> 0.0);
     }
 
     configureInputs();
@@ -51,6 +54,8 @@ public class RobotContainer {
 
   public void update() {
     timestamp.update();
+    percentOutput.update();
+
   }
 
   /**
@@ -60,11 +65,13 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureInputs() {
+    spinner.setDefaultCommand(new RunSpinner(spinner, percentOutput.getAsDouble()));
     // spinner.setDefaultCommand(new RunSpinner(spinner));
     oi.getRunBackwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, -1.0));
     oi.getRunForwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, 1.0));
     oi.getRunBackwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, -0.1));
     oi.getRunForwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, 0.1));
+
   }
 
   /**
