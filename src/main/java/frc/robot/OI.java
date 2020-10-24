@@ -7,30 +7,42 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Controller;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frckit.util.StoredDoubleSupplier;
 
 /**
  * Interfaces to controllers
  */
 public class OI {
 
-    private Joystick controller;
+    private final Joystick controller;
 
-    private Button runForwardsFastButton;
-    private Button runBackwardsFastButton;
-    private Button runForwardsSlowButton;
-    private Button runBackwardsSlowButton;
+    private final Button runForwardsFastButton;
+    private final Button runBackwardsFastButton;
+    private final Button runForwardsSlowButton;
+    private final Button runBackwardsSlowButton;
+    private final double throttleValue;
 
-    public OI(int id) {
+    public OI(final int id) {
         controller = new Joystick(id);
 
         runForwardsFastButton = new JoystickButton(controller, 4);
         runBackwardsFastButton = new JoystickButton(controller, 1);
         runForwardsSlowButton = new JoystickButton(controller, 3);
         runBackwardsSlowButton = new JoystickButton(controller, 2);
+        throttleValue = controller.getRawAxis(5);
+
+    }
+
+    // throttleValue = new StoredDoubleSupplier(controller.getRawAxis(5));
+    public double getRightDriveX() {
+        return controller.getRawAxis(5);
     }
 
     public Trigger getRunForwardsFastButton() {
