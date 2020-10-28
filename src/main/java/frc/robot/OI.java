@@ -27,10 +27,10 @@ public class OI {
     public OI(int id) {
         controller = new Joystick(id);
 
-        runForwardsFastButton = new JoystickButton(controller, 1);
-        runBackwardsFastButton = new JoystickButton(controller, 2);
-        runForwardsSlowButton = new JoystickButton(controller, 3);
-        runBackwardsSlowButton = new JoystickButton(controller, 4);
+        runForwardsFastButton = new JoystickButton(controller, 2);
+        runBackwardsFastButton = new JoystickButton(controller, 1);
+        runForwardsSlowButton = new JoystickButton(controller, 4);
+        runBackwardsSlowButton = new JoystickButton(controller, 3);
     }
 
     public Trigger getRunForwardsFastButton() {
@@ -47,5 +47,9 @@ public class OI {
 
     public Trigger getRunBackwardsSlowButton() {
         return runBackwardsSlowButton;
+    }
+
+    public double getSpinnerDriveAxis() {
+        return controller.getRawAxis(3);
     }
 }
