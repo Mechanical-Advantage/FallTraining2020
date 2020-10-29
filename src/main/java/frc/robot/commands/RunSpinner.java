@@ -12,13 +12,15 @@ import frc.robot.subsystems.spinner.Spinner;
 
 public class RunSpinner extends CommandBase {
   private final Spinner spinner;
+  private double percentout;
 
   /**
    * Creates a new RunSpinner.
    */
-  public RunSpinner(Spinner spinner) {
+  public RunSpinner(Spinner spinner, double percentout) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.spinner = spinner;
+    this.percentout = percentout;
     addRequirements(spinner);
   }
 
@@ -37,6 +39,7 @@ public class RunSpinner extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     spinner.setPercentOutput(0);
+
   }
 
   // Returns true when the command should end.

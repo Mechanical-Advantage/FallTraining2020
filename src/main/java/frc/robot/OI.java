@@ -21,13 +21,36 @@ public class OI {
 
     private Button runForwardsFastButton;
 
+    private Button runForwardsButton;
+
+    private Button runBackwardsButton;
+
+    private Button runBackwardsFastButton;
+
     public OI(int id) {
         controller = new Joystick(id);
 
-        runForwardsFastButton = new JoystickButton(controller, 2);
+        runForwardsFastButton = new JoystickButton(controller, 1);
+        runForwardsButton = new JoystickButton(controller, 2);
+        runBackwardsFastButton = new JoystickButton(controller, 3);
+        runBackwardsButton = new JoystickButton(controller, 4);
+        /* update robotcontainer file with the new buttons */
     }
 
-    public Trigger getRunForwardsFastButton() {
+    public Button getRunForwardsFastButton() {
         return runForwardsFastButton;
     }
+
+    public Button getRunForwardsButton() {
+        return runForwardsButton;
+    }
+
+    public Button getRunBackwardsButton() {
+        return runBackwardsButton;
+    }
+
+    public Button getRunBackwardsFastButton() {
+        return runBackwardsFastButton;
+    }
+
 }

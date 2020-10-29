@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.RunSpinner;
 import frc.robot.subsystems.spinner.*;
 import frckit.simulation.devices.SimTimer;
@@ -35,15 +36,15 @@ public class RobotContainer {
     oi = new OI(0);
 
     switch (Constants.getRobot()) {
-      case SIM_NOTBOT:
-        spinner = new Spinner(new SpinnerIOSim());
-        timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
-        break;
+    case SIM_NOTBOT:
+      spinner = new Spinner(new SpinnerIOSim());
+      timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
+      break;
 
-      default:
-        spinner = new Spinner(new SpinnerIO() {
-        });
-        timestamp = new StoredDoubleSupplier(() -> 0.0);
+    default:
+      spinner = new Spinner(new SpinnerIO() {
+      });
+      timestamp = new StoredDoubleSupplier(() -> 0.0);
     }
 
     configureInputs();
@@ -60,7 +61,11 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureInputs() {
-    spinner.setDefaultCommand(new RunSpinner(spinner));
+    // spinner.setDefaultCommand(new RunSpinner(spinner, 0));
+    oi.getRunForwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, 0.3));
+    oi.getRunForwardsButton().whileActiveContinuous(new RunSpinner(spinner, 0.1));
+    oi.getRunBackwardsButton().whileActiveContinuous(new RunSpinner(spinner, -0.1));
+    oi.getRunBackwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, -0.3));
   }
 
   /**
