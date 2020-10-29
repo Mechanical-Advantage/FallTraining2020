@@ -54,8 +54,11 @@ public class RobotContainer {
 
   public void update() {
     timestamp.update();
-    percentOutput.update();
+  }
 
+  public void execute() {
+    // spinner.setDefaultCommand(new RunSpinner(spinner,
+    // percentOutput.getAsDouble()));
   }
 
   /**
@@ -65,7 +68,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureInputs() {
-    spinner.setDefaultCommand(new RunSpinner(spinner, percentOutput.getAsDouble()));
+    spinner.setDefaultCommand(new RunSpinner(spinner, oi::getRightDriveX));
     // spinner.setDefaultCommand(new RunSpinner(spinner));
     oi.getRunBackwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, -1.0));
     oi.getRunForwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, 1.0));
