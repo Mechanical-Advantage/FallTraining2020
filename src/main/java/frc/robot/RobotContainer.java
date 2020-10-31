@@ -12,6 +12,9 @@ import frc.robot.commands.RunSpinner;
 import frc.robot.subsystems.spinner.*;
 import frckit.simulation.devices.SimTimer;
 import frckit.util.StoredDoubleSupplier;
+import frc.robot.commands.RunSpinnerWithJoystick;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -27,7 +30,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Spinner spinner;
   private final StoredDoubleSupplier timestamp;
-  private final StoredDoubleSupplier percentOutput;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -39,14 +41,14 @@ public class RobotContainer {
     case SIM_NOTBOT:
       spinner = new Spinner(new SpinnerIOSim());
       timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
-      percentOutput = new StoredDoubleSupplier(oi::getRightDriveX);
+
       break;
 
     default:
       spinner = new Spinner(new SpinnerIO() {
       });
       timestamp = new StoredDoubleSupplier(() -> 0.0);
-      percentOutput = new StoredDoubleSupplier(() -> 0.0);
+
     }
 
     configureInputs();
@@ -68,7 +70,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureInputs() {
-    spinner.setDefaultCommand(new RunSpinner(spinner, oi::getRightDriveX));
+    spinner.setDefaultCommand(new RunSpinnerWithJoystick(spinner, oi::getRightDriveX));
     // spinner.setDefaultCommand(new RunSpinner(spinner));
     oi.getRunBackwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, -1.0));
     oi.getRunForwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, 1.0));
@@ -84,6 +86,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    // return null;
+    return new SequentialCommandGroup(new WaitCommand(3), new RunSpinner(spinner, -0.1).withTimeout(3),
+        new RunSpinner(spinner, 0.3));
+
   }
 }
