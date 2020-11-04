@@ -7,7 +7,10 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.JoystickSpinner;
 import frc.robot.commands.RunSpinner;
 import frc.robot.subsystems.spinner.*;
 import frckit.simulation.devices.SimTimer;
@@ -64,6 +67,7 @@ public class RobotContainer {
     oi.getRunBackwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, -.25));
     oi.getRunForwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, .0625));
     oi.getRunBackwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, -.0625));
+    spinner.setDefaultCommand(new JoystickSpinner(spinner, oi::getLeftJoystick));
   }
 
   /**

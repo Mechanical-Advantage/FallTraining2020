@@ -31,7 +31,13 @@ public class OI {
         runBackwardsFastButton = new JoystickButton(controller,4);
         runForwardsSlowButton = new JoystickButton(controller,2);
         runBackwardsSlowButton = new JoystickButton(controller,3);
+
+
     }
+
+    public double getLeftJoystick() {
+        return controller.getRawAxis(1);
+        }
 
     public Trigger getRunForwardsFastButton() {
         return runForwardsFastButton;
