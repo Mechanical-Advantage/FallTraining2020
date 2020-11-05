@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -41,6 +42,11 @@ public class RobotContainer {
       case SIM_NOTBOT:
         spinner = new Spinner(new SpinnerIOSim());
         timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
+        break;
+
+      case ROBOT_NOTBOT:
+        spinner = new Spinner(new SpinnerIOReal());
+        timestamp = new StoredDoubleSupplier(Timer::getFPGATimestamp);
         break;
 
       default:
