@@ -8,7 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.JoystickSpinner;
 import frc.robot.commands.RunSpinner;
 import frc.robot.subsystems.spinner.*;
 import frckit.simulation.devices.SimTimer;
@@ -61,11 +63,18 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureInputs() {
-    // spinner.setDefaultCommand(new RunSpinner(spinner, 0));
+    // spinner.setDefaultCommand(new RunSpinner(spinner, 1));
     oi.getRunForwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, 0.3));
     oi.getRunForwardsButton().whileActiveContinuous(new RunSpinner(spinner, 0.1));
     oi.getRunBackwardsButton().whileActiveContinuous(new RunSpinner(spinner, -0.1));
     oi.getRunBackwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, -0.3));
+    // oi.getCJoystick().whileActiveContinuous(new RunSpinner(spinner, 1.0));
+    // oi.getCJoystick().whileActiveContinuous(new RunSpinner(spinner, 0));
+    spinner.setDefaultCommand(new JoystickSpinner(spinner, oi::getLeftJoystick));
+  }
+
+  public void execute() {
+
   }
 
   /**
@@ -75,6 +84,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return new SequentialCommandGroup(new RunSpinner(spinner, 1).withTimeout(5),
+        new RunSpinner(spinner, 0).withTimeout(5), new RunSpinner(spinner, -1));
   }
 }

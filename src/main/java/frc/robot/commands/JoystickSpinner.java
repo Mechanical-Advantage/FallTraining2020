@@ -7,40 +7,41 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.spinner.Spinner;
 
-public class RunSpinner extends CommandBase {
+public class JoystickSpinner extends CommandBase {
   private final Spinner spinner;
-  private double percentout;
+  private final DoubleSupplier speedSupplier;
 
   /**
-   * Creates a new RunSpinner.
+   * Creates a new JoystickSpinner.
    */
 
-  public RunSpinner(Spinner spinner, double percentout) {
+  public JoystickSpinner(Spinner spinner, DoubleSupplier supplier) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.spinner = spinner;
-    this.percentout = percentout;
+    this.spinner = spinner; // this.spinner because there are other instances of spinner
     addRequirements(spinner);
+    speedSupplier = supplier;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    spinner.setPercentOutput(percentout);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    spinner.setPercentOutput(speedSupplier.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    spinner.setPercentOutput(0);
-
   }
 
   // Returns true when the command should end.
