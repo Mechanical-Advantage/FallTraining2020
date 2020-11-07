@@ -45,6 +45,10 @@ public class OI {
         return controller.getRawAxis(3);
     }
 
+    public double getLeftDriveX() {
+        return controller.getRawAxis(1);
+    }
+
     public Trigger getRunForwardsFastButton() {
         return runForwardsFastButton;
     }

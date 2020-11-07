@@ -9,6 +9,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.RunSpinner;
+import frc.robot.subsystems.drivetrain.DriveTrain;
+import frc.robot.subsystems.drivetrain.DriveTrainIO;
+import frc.robot.subsystems.drivetrain.DriveTrainIOSim;
 import frc.robot.subsystems.spinner.*;
 import frckit.simulation.devices.SimTimer;
 import frckit.util.StoredDoubleSupplier;
@@ -29,6 +32,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final Spinner spinner;
+  private final DriveTrain drivetrain;
   private final StoredDoubleSupplier timestamp;
 
   /**
@@ -40,6 +44,7 @@ public class RobotContainer {
     switch (Constants.getRobot()) {
     case SIM_NOTBOT:
       spinner = new Spinner(new SpinnerIOSim());
+      drivetrain = new DriveTrain(new DriveTrainIOSim());
       timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
 
       break;
