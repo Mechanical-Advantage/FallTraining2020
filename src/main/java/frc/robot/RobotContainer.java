@@ -45,13 +45,13 @@ public class RobotContainer {
       case SIM_NOTBOT:
         timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
         spinner = new Spinner(new SpinnerIOSim());
-        driveTrain = new DriveTrain(new DriveTrainIOSim(), timestamp);
+        driveTrain = new DriveTrain(new DriveTrainIOSim());
         break;
 
       case ROBOT_NOTBOT:
         timestamp = new StoredDoubleSupplier(Timer::getFPGATimestamp);
         spinner = new Spinner(new SpinnerIOReal());
-        driveTrain = new DriveTrain(new DriveTrainIOReal(), timestamp);
+        driveTrain = new DriveTrain(new DriveTrainIOReal());
         break;
 
       default:
@@ -59,7 +59,7 @@ public class RobotContainer {
         spinner = new Spinner(new SpinnerIO() {
         });
         driveTrain = new DriveTrain(new DriveTrainIO() {
-        }, timestamp);
+        });
     }
 
     configureInputs();
