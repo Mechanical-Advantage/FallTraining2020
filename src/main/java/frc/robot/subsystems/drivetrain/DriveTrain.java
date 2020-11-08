@@ -20,6 +20,7 @@ public class DriveTrain extends SubsystemBase {
   private double rightVelocityRadiansPerSecond;
   private double leftOutputVoltage;
   private double rightOutputVoltage;
+  private double gyroAngleRadians;
 
   /**
    * Creates a new DriveTrain.
@@ -41,6 +42,7 @@ public class DriveTrain extends SubsystemBase {
     rightVelocityRadiansPerSecond = io.getRightVelocityRadiansPerSecond();
     leftOutputVoltage = io.getLeftOutputVoltage();
     rightOutputVoltage = io.getRightOutputVoltage();
+    gyroAngleRadians = io.getGyroAngleRadians();
   }
 
   public void setPercentOutputs(double leftOutput, double rightOutput) {
@@ -69,5 +71,9 @@ public class DriveTrain extends SubsystemBase {
 
   public double getRightOutputVoltage() {
     return rightOutputVoltage;
+  }
+
+  public double getGyroAngleRadians() {
+    return gyroAngleRadians;
   }
 }

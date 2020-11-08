@@ -7,12 +7,18 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * Real implementation of SpinnerIO
@@ -23,8 +29,12 @@ public class DriveTrainIOReal implements DriveTrainIO {
     TalonSRX rightMaster = new TalonSRX(1);
     TalonSRX rightFollower = new TalonSRX(2);
 
+    private static final double navXWaitTime = 5; // Maximum number of seconds to wait for the navX to initialize
+    private final AHRS ahrs = new AHRS(SerialPort.Port.kUSB);
+
     private static final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
     private static final double HUNDRED_MS_TO_S = 10.0;
+    private static final double ANGLE_TO_RAD = 360.0 / (2.0 * Math.PI);
 
     @Override
     public void setup() {
@@ -34,6 +44,7 @@ public class DriveTrainIOReal implements DriveTrainIO {
 
         leftFollower.configFactoryDefault();
         leftFollower.setInverted(InvertType.FollowMaster);
+        leftFollower.follow(leftMaster);
 
         rightMaster.configFactoryDefault();
         rightMaster.setInverted(true);
@@ -41,6 +52,7 @@ public class DriveTrainIOReal implements DriveTrainIO {
 
         rightFollower.configFactoryDefault();
         rightFollower.setInverted(InvertType.FollowMaster);
+        rightFollower.follow(rightMaster);
 
         // Configure status frame rate
         leftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 5, 100);
@@ -58,6 +70,22 @@ public class DriveTrainIOReal implements DriveTrainIO {
         rightMaster.setSelectedSensorPosition(0);
         leftMaster.setSensorPhase(false);
         rightMaster.setSensorPhase(false);
+
+        leftMaster.configNeutralDeadband(0, 100);
+        rightMaster.configNeutralDeadband(0, 100);
+
+        // Initialize NavX
+        Timer navXTimer = new Timer();
+        navXTimer.start();
+        while (ahrs.getByteCount() == 0 && navXTimer.get() <= navXWaitTime) {
+            System.out.println("waiting");
+            Timer.delay(0.01);
+        }
+        if (navXTimer.get() >= navXWaitTime) {
+            DriverStation.reportError("Timeout while waiting for NavX init", false);
+        }
+
+        ahrs.zeroYaw();
     }
 
     @Override
@@ -94,5 +122,10 @@ public class DriveTrainIOReal implements DriveTrainIO {
     @Override
     public double getRightOutputVoltage() {
         return rightMaster.getMotorOutputVoltage();
+    }
+
+    @Override
+    public double getGyroAngleRadians() {
+        return ahrs.getAngle() * ANGLE_TO_RAD;
     }
 }

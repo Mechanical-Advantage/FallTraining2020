@@ -14,7 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  * Real implementation of SpinnerIO
  */
 public class SpinnerIOReal implements SpinnerIO {
-    TalonSRX motor = new TalonSRX(2);
+    TalonSRX motor = new TalonSRX(10);
 
     @Override
     public void setup() {

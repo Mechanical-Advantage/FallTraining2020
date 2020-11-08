@@ -40,4 +40,8 @@ public interface DriveTrainIO {
     public default double getRightOutputVoltage() {
         return 0;
     };
+
+    public default double getGyroAngleRadians() {
+        return 0;
+    }
 }

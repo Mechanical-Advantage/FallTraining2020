@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.Characterization;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.RunSpinner;
 import frc.robot.commands.RunSpinnerWithJoystick;
@@ -91,7 +92,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new SequentialCommandGroup(new RunSpinner(spinner, 0.1).withTimeout(5), new WaitCommand(5),
-        new RunSpinner(spinner, -0.1).withTimeout(5));
+    // return new SequentialCommandGroup(new RunSpinner(spinner,
+    // 0.1).withTimeout(5), new WaitCommand(5), new RunSpinner(spinner,
+    // -0.1).withTimeout(5));
+    return new Characterization(driveTrain, timestamp);
   }
 }
