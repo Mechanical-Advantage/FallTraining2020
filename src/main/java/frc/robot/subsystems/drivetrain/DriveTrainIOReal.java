@@ -34,6 +34,7 @@ public class DriveTrainIOReal implements DriveTrainIO {
 
         leftFollower.configFactoryDefault();
         leftFollower.setInverted(InvertType.FollowMaster);
+        leftFollower.follow(leftMaster);
 
         rightMaster.configFactoryDefault();
         rightMaster.setInverted(true);
@@ -41,6 +42,7 @@ public class DriveTrainIOReal implements DriveTrainIO {
 
         rightFollower.configFactoryDefault();
         rightFollower.setInverted(InvertType.FollowMaster);
+        rightFollower.follow(rightMaster);
 
         // Configure status frame rate
         leftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 5, 100);
