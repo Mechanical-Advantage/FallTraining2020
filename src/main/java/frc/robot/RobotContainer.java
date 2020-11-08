@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.RunSpinner;
 import frc.robot.commands.RunSpinnerWithJoystick;
 import frc.robot.subsystems.spinner.*;
+import frc.robot.subsystems.drivetrain.*;
 import frckit.simulation.devices.SimTimer;
 import frckit.util.StoredDoubleSupplier;
 
@@ -30,6 +32,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final Spinner spinner;
+  private final DriveTrain driveTrain;
   private final StoredDoubleSupplier timestamp;
 
   /**
@@ -40,19 +43,23 @@ public class RobotContainer {
 
     switch (Constants.getRobot()) {
       case SIM_NOTBOT:
-        spinner = new Spinner(new SpinnerIOSim());
         timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
+        spinner = new Spinner(new SpinnerIOSim());
+        driveTrain = new DriveTrain(new DriveTrainIOSim(), timestamp);
         break;
 
       case ROBOT_NOTBOT:
-        spinner = new Spinner(new SpinnerIOReal());
         timestamp = new StoredDoubleSupplier(Timer::getFPGATimestamp);
+        spinner = new Spinner(new SpinnerIOReal());
+        driveTrain = new DriveTrain(new DriveTrainIOReal(), timestamp);
         break;
 
       default:
+        timestamp = new StoredDoubleSupplier(() -> 0.0);
         spinner = new Spinner(new SpinnerIO() {
         });
-        timestamp = new StoredDoubleSupplier(() -> 0.0);
+        driveTrain = new DriveTrain(new DriveTrainIO() {
+        }, timestamp);
     }
 
     configureInputs();
@@ -70,6 +77,7 @@ public class RobotContainer {
    */
   private void configureInputs() {
     spinner.setDefaultCommand(new RunSpinnerWithJoystick(spinner, oi::getSpinnerDriveAxis));
+    driveTrain.setDefaultCommand(new DriveWithJoysticks(driveTrain, oi::getLeftDriveAxis, oi::getRightDriveAxis));
 
     oi.getRunForwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, 1));
     oi.getRunBackwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, -1));
