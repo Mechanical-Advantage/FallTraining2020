@@ -12,7 +12,6 @@ import java.util.function.DoubleSupplier;
 
 public class DriveTrain extends SubsystemBase {
   private DriveTrainIO io;
-  private final DoubleSupplier timestamp;
 
   private double leftPositionRadians;
   private double rightPositionRadians;
@@ -24,9 +23,8 @@ public class DriveTrain extends SubsystemBase {
   /**
    * Creates a new DriveTrain.
    */
-  public DriveTrain(DriveTrainIO io, DoubleSupplier timestamp) {
+  public DriveTrain(DriveTrainIO io) {
     this.io = io;
-    this.timestamp = timestamp;
     io.setup();
   }
 
