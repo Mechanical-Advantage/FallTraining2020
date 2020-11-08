@@ -27,6 +27,7 @@ public class DriveTrain extends SubsystemBase {
   public DriveTrain(DriveTrainIO io, DoubleSupplier timestamp) {
     this.io = io;
     this.timestamp = timestamp;
+    io.setup();
   }
 
   @Override

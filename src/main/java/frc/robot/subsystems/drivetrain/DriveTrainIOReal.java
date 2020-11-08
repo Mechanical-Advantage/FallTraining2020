@@ -23,7 +23,7 @@ public class DriveTrainIOReal implements DriveTrainIO {
     TalonSRX rightMaster = new TalonSRX(1);
     TalonSRX rightFollower = new TalonSRX(2);
 
-    private static final double TICKS_TO_RAD = 1440.0 / (2.0 * Math.PI);
+    private static final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
     private static final double HUNDRED_MS_TO_S = 10.0;
 
     @Override
@@ -54,6 +54,10 @@ public class DriveTrainIOReal implements DriveTrainIO {
 
         leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100);
         rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100);
+        leftMaster.setSelectedSensorPosition(0);
+        rightMaster.setSelectedSensorPosition(0);
+        leftMaster.setSensorPhase(false);
+        rightMaster.setSensorPhase(false);
     }
 
     @Override

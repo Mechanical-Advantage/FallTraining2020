@@ -22,6 +22,7 @@ public class DriveWithJoysticks extends CommandBase {
    */
   public DriveWithJoysticks(DriveTrain driveTrain, DoubleSupplier leftAxis, DoubleSupplier rightAxis) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(driveTrain);
     this.driveTrain = driveTrain;
     this.leftAxis = leftAxis;
     this.rightAxis = rightAxis;
