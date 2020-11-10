@@ -61,8 +61,8 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
-    implementation "frckit:FRCKit-Util:0.0.13"
-    implementation "frckit:FRCKit-SimulationClient:0.0.13"
+    implementation "frckit:FRCKit-Util:0.0.10"
+    implementation "frckit:FRCKit-SimulationClient:0.0.9"
 
 
     testImplementation 'junit:junit:4.12'

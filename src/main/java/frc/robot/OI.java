@@ -50,14 +50,14 @@ public class OI {
     }
 
     public double getSpinnerDriveAxis() {
-        return controller.getRawAxis(0);
+        return ((controller.getRawAxis(2) + 1) / 2) - ((controller.getRawAxis(5) + 1) / 2);
     }
 
     public double getLeftDriveAxis() {
-        return controller.getRawAxis(1);
+        return controller.getRawAxis(1) * -1;
     }
 
     public double getRightDriveAxis() {
-        return controller.getRawAxis(2);
+        return controller.getRawAxis(4) * -1;
     }
 }
