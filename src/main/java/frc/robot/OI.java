@@ -25,7 +25,7 @@ public class OI {
     private Button runBackwardsSlowButton;
 
     public OI(int id) {
-        controller = new Joystick(id);
+        controller = new Joystick(3);
 
         runForwardsFastButton = new JoystickButton(controller, 2);
         runBackwardsFastButton = new JoystickButton(controller, 4);
@@ -47,5 +47,17 @@ public class OI {
 
     public Trigger getRunBackwardsSlowButton() {
         return runBackwardsSlowButton;
+    }
+
+    public double getSpinnerAxis() {
+        return controller.getRawAxis(4);
+    }
+
+    public double getLeftDrivetrain() {
+        return controller.getRawAxis(1);
+    }
+
+    public double getRightDrivetrain() {
+        return controller.getRawAxis(1);
     }
 }

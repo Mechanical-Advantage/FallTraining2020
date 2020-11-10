@@ -7,11 +7,19 @@
 
 package frc.robot;
 
+//import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.DrivetrainControl;
 import frc.robot.commands.RunSpinner;
+import frc.robot.commands.RunSpinnerWithJoystick;
 import frc.robot.subsystems.spinner.*;
+import frc.robot.subsystems.drivetrain.*;
 import frckit.simulation.devices.SimTimer;
 import frckit.util.StoredDoubleSupplier;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -26,6 +34,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final Spinner spinner;
+  private final Drivetrain drivetrain;
   private final StoredDoubleSupplier timestamp;
 
   /**
@@ -37,11 +46,21 @@ public class RobotContainer {
     switch (Constants.getRobot()) {
     case SIM_NOTBOT:
       spinner = new Spinner(new SpinnerIOSim());
+      drivetrain = new Drivetrain(new DrivetrainIO() {
+      });
       timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
+      break;
+
+    case ROBOT_NOTBOT:
+      spinner = new Spinner(new SpinnerIOReal());
+      drivetrain = new Drivetrain(new DrivetrainIOReal());
+      timestamp = new StoredDoubleSupplier(Timer::getFPGATimestamp);
       break;
 
     default:
       spinner = new Spinner(new SpinnerIO() {
+      });
+      drivetrain = new Drivetrain(new DrivetrainIO() {
       });
       timestamp = new StoredDoubleSupplier(() -> 0.0);
     }
@@ -65,6 +84,11 @@ public class RobotContainer {
     oi.getRunBackwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, -1.0));
     oi.getRunForwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, 0.5));
     oi.getRunBackwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, -0.5));
+    oi.getSpinnerAxis();
+    drivetrain.setDefaultCommand(new DrivetrainControl(drivetrain, oi::getLeftDrivetrain, oi::getRightDrivetrain));
+    spinner.setDefaultCommand(new RunSpinnerWithJoystick(spinner, oi::getSpinnerAxis));
+    // new RunSpinnerWithJoystick(spinner, oi);
+    // DoubleSupplier supplier = oi::getSpinnerAxis;
   }
 
   /**
@@ -74,6 +98,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return new SequentialCommandGroup(new RunSpinner(spinner, 1).withTimeout(5.0), new WaitCommand(5),
+        new RunSpinner(spinner, -1));
   }
 }
