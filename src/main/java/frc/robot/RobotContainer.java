@@ -85,6 +85,8 @@ public class RobotContainer {
     oi.getRunForwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, 0.5));
     oi.getRunBackwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, -0.5));
     oi.getSpinnerAxis();
+    // oi.getLeftDrivetrain();
+    // oi.getRightDrivetrain();
     drivetrain.setDefaultCommand(new DrivetrainControl(drivetrain, oi::getLeftDrivetrain, oi::getRightDrivetrain));
     spinner.setDefaultCommand(new RunSpinnerWithJoystick(spinner, oi::getSpinnerAxis));
     // new RunSpinnerWithJoystick(spinner, oi);

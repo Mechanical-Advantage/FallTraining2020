@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
-import java.util.function.DoubleSupplier;
+//import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
@@ -40,8 +40,8 @@ public class RunSpinnerWithJoystick extends CommandBase {
   @Override
   public void execute() {
     // oi.getSpinnerAxis();
-    supplier.getAsDouble();
-    spinner.setPercentOutput(1);
+    // supplier.getAsDouble();
+    spinner.setPercentOutput(supplier.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

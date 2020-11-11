@@ -13,7 +13,8 @@ import frckit.simulation.devices.SimSimpleMotorController;
  * Add your docs here.
  */
 public class DrivetrainIOSim implements DrivetrainIO {
-    SimSimpleMotorController motor = new SimSimpleMotorController(2);
+    SimSimpleMotorController leftMotor = new SimSimpleMotorController(0);
+    SimSimpleMotorController rightMotor = new SimSimpleMotorController(1);
 
     @Override
     public void setup() {
@@ -21,8 +22,8 @@ public class DrivetrainIOSim implements DrivetrainIO {
 
     @Override
     public void setOutputVolts(double leftVoltage, double rightVoltage) {
-        motor.setOutputVoltage(leftVoltage);
-        motor.setOutputVoltage(rightVoltage);
+        leftMotor.setOutputVoltage(leftVoltage);
+        rightMotor.setOutputVoltage(rightVoltage);
 
     }
 }
