@@ -46,8 +46,7 @@ public class RobotContainer {
     switch (Constants.getRobot()) {
     case SIM_NOTBOT:
       spinner = new Spinner(new SpinnerIOSim());
-      drivetrain = new Drivetrain(new DrivetrainIO() {
-      });
+      drivetrain = new Drivetrain(new DrivetrainIOSim());
       timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
       break;
 
