@@ -10,9 +10,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DrivetrainControl;
 import frc.robot.commands.JoystickSpinner;
 import frc.robot.commands.RunSpinner;
 import frc.robot.subsystems.spinner.*;
+import frc.robot.subsystems.drivetrain.*;
 import frckit.simulation.devices.SimTimer;
 import frckit.util.StoredDoubleSupplier;
 
@@ -29,6 +31,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final Spinner spinner;
+  private final Drivetrain drivetrain;
   private final StoredDoubleSupplier timestamp;
 
   /**
@@ -41,9 +44,13 @@ public class RobotContainer {
       case SIM_NOTBOT:
         spinner = new Spinner(new SpinnerIOSim());
         timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
+        drivetrain = new Drivetrain(new DrivetrainIOSim()); 
+
+        
         break;
         case ROBOT_NOTBOT:
         spinner = new Spinner(new SpinnerIOReal());
+        drivetrain = new Drivetrain(new DrivetrainIOReal());
         timestamp = new StoredDoubleSupplier(Timer::getFPGATimestamp);
         break;
 
@@ -51,6 +58,9 @@ public class RobotContainer {
         spinner = new Spinner(new SpinnerIO() {
         });
         timestamp = new StoredDoubleSupplier(() -> 0.0);
+        drivetrain = new Drivetrain(new DrivetrainIO() {
+
+        });
     }
 
     configureInputs();
@@ -71,7 +81,9 @@ public class RobotContainer {
     oi.getRunBackwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, -.25));
     oi.getRunForwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, .0625));
     oi.getRunBackwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, -.0625));
-    spinner.setDefaultCommand(new JoystickSpinner(spinner, oi::getLeftJoystick));
+    spinner.setDefaultCommand(new JoystickSpinner(spinner, oi::getSpinnerJoystick));
+    drivetrain.setDefaultCommand(new DrivetrainControl(drivetrain, oi::getLeftDrivetrain, oi::getRightDrivetrain));
+    
   }
 
   /**
