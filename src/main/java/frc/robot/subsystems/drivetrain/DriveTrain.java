@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrain extends SubsystemBase {
@@ -38,6 +39,10 @@ public class DriveTrain extends SubsystemBase {
     rightVelocityRadiansPerSecond = io.getRightVelocityRadiansPerSecond();
     leftOutputVoltage = io.getLeftOutputVoltage();
     rightOutputVoltage = io.getRightOutputVoltage();
+
+    // Log encoder positions
+    SmartDashboard.putNumber("Left Encoder (degrees)", io.getLeftPositionRadians() * (180 / Math.PI));
+    SmartDashboard.putNumber("Right Encoder (degrees)", io.getRightPositionRadians() * (180 / Math.PI));
   }
 
   public void setPercentOutputs(double leftOutput, double rightOutput) {
