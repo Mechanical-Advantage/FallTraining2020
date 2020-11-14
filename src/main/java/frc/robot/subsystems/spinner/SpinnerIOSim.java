@@ -8,12 +8,14 @@
 package frc.robot.subsystems.spinner;
 
 import frckit.simulation.devices.SimSimpleMotorController;
+import frckit.simulation.devices.SimTransmissionEncoder;
 
 /**
  * Simulator implementation of SpinnerIO
  */
 public class SpinnerIOSim implements SpinnerIO {
     SimSimpleMotorController motor = new SimSimpleMotorController(2);
+    SimTransmissionEncoder spinnerEncoder = new SimTransmissionEncoder(2);
 
     @Override
     public void setup() {
@@ -22,5 +24,10 @@ public class SpinnerIOSim implements SpinnerIO {
     @Override
     public void setOutputVolts(double voltage) {
         motor.setOutputVoltage(voltage);
+    }
+
+    @Override
+    public double getSpinnerEncoder() {
+        return spinnerEncoder.getPositionRadians();
     }
 }

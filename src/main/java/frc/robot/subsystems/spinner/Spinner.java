@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems.spinner;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Spinner extends SubsystemBase {
@@ -23,6 +24,7 @@ public class Spinner extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Spinner Encoder", io.getSpinnerEncoder());
   }
 
   public void setPercentOutput(double output) {

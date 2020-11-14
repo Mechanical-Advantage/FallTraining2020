@@ -16,4 +16,8 @@ public interface SpinnerIO {
 
     public default void setOutputVolts(double voltage) {
     };
+
+    public default double getSpinnerEncoder() {
+        return 0;
+    }
 }

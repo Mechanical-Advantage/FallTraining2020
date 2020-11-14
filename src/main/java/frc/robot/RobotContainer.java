@@ -8,16 +8,19 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.DrivetrainWithJoystick;
 import frc.robot.commands.RunSpinner;
-import frc.robot.subsystems.drivetrain.DriveTrain;
-import frc.robot.subsystems.drivetrain.DriveTrainIO;
-import frc.robot.subsystems.drivetrain.DriveTrainIOSim;
+import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.subsystems.drivetrain.DrivetrainIO;
+import frc.robot.subsystems.drivetrain.DrivetrainIOSim;
 import frc.robot.subsystems.spinner.*;
 import frckit.simulation.devices.SimTimer;
 import frckit.util.StoredDoubleSupplier;
 import frc.robot.commands.RunSpinnerWithJoystick;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj.shuffleboard.*;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -32,8 +35,10 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final Spinner spinner;
-  private final DriveTrain drivetrain;
+  private final Drivetrain drivetrain;
   private final StoredDoubleSupplier timestamp;
+
+  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -44,7 +49,7 @@ public class RobotContainer {
     switch (Constants.getRobot()) {
     case SIM_NOTBOT:
       spinner = new Spinner(new SpinnerIOSim());
-      drivetrain = new DriveTrain(new DriveTrainIOSim());
+      drivetrain = new Drivetrain(new DrivetrainIOSim());
       timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
 
       break;
@@ -52,6 +57,7 @@ public class RobotContainer {
     default:
       spinner = new Spinner(new SpinnerIO() {
       });
+      drivetrain = new Drivetrain(new DrivetrainIOSim());
       timestamp = new StoredDoubleSupplier(() -> 0.0);
 
     }
@@ -81,7 +87,7 @@ public class RobotContainer {
     oi.getRunForwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, 1.0));
     oi.getRunBackwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, -0.1));
     oi.getRunForwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, 0.1));
-
+    drivetrain.setDefaultCommand(new DrivetrainWithJoystick(drivetrain, oi::getLeftDriveX, oi::getRightDriveX));
   }
 
   /**

@@ -4,15 +4,29 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
+
 package frc.robot.subsystems.drivetrain;
 
-public interface DriveTrainIO {
-    public default void setup() {
+/**
+ * Add your docs here.
+ */
 
-    }
+public interface DrivetrainIO {
 
-    public default void setOutputVolts(double leftVoltage, double rightVoltage) {
+  public default void setup() {
 
-    }
+  }
+
+  public default void setOutputVolts(double leftVoltage, double rightVoltage) {
+
+  }
+
+  public default double getLeftPositionRadians() {
+    return 0;
+  }
+
+  public default double getRightPositionRadians() {
+    return 0;
+  }
 
 }

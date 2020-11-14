@@ -42,11 +42,11 @@ public class OI {
 
     // throttleValue = new StoredDoubleSupplier(controller.getRawAxis(5));
     public double getRightDriveX() {
-        return controller.getRawAxis(3);
+        return controller.getRawAxis(2);
     }
 
     public double getLeftDriveX() {
-        return controller.getRawAxis(1);
+        return controller.getRawAxis(1) * -1;
     }
 
     public Trigger getRunForwardsFastButton() {
