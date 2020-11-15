@@ -8,13 +8,13 @@
 package frc.robot.subsystems.spinner;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /**
  * Real implementation of SpinnerIO
  */
 public class SpinnerIOReal implements SpinnerIO {
-    TalonSRX motor = new TalonSRX(2);
+    VictorSPX motor = new VictorSPX(10);
 
     @Override
     public void setup() {
