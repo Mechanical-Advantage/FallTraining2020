@@ -24,10 +24,10 @@ import edu.wpi.first.wpilibj.Timer;
  * Real implementation of SpinnerIO
  */
 public class DriveTrainIOReal implements DriveTrainIO {
-    TalonSRX leftMaster = new TalonSRX(3);
-    TalonSRX leftFollower = new TalonSRX(4);
-    TalonSRX rightMaster = new TalonSRX(1);
-    TalonSRX rightFollower = new TalonSRX(2);
+    TalonSRX leftMaster = new TalonSRX(1);
+    TalonSRX leftFollower = new TalonSRX(2);
+    TalonSRX rightMaster = new TalonSRX(3);
+    TalonSRX rightFollower = new TalonSRX(4);
 
     private static final double navXWaitTime = 5; // Maximum number of seconds to wait for the navX to initialize
     private final AHRS ahrs = new AHRS(SerialPort.Port.kUSB);
@@ -39,7 +39,7 @@ public class DriveTrainIOReal implements DriveTrainIO {
     @Override
     public void setup() {
         leftMaster.configFactoryDefault();
-        leftMaster.setInverted(false);
+        leftMaster.setInverted(true);
         leftMaster.configVoltageCompSaturation(12);
 
         leftFollower.configFactoryDefault();
@@ -47,7 +47,7 @@ public class DriveTrainIOReal implements DriveTrainIO {
         leftFollower.follow(leftMaster);
 
         rightMaster.configFactoryDefault();
-        rightMaster.setInverted(true);
+        rightMaster.setInverted(false);
         rightMaster.configVoltageCompSaturation(12);
 
         rightFollower.configFactoryDefault();
