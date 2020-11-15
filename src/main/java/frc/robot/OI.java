@@ -58,6 +58,6 @@ public class OI {
     }
 
     public double getRightDriveAxis() {
-        return controller.getRawAxis(4) * -1;
+        return controller.getRawAxis(5) * -1;
     }
 }
