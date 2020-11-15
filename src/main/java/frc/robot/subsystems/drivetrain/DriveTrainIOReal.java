@@ -18,10 +18,10 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  * Real implementation of SpinnerIO
  */
 public class DriveTrainIOReal implements DriveTrainIO {
-    TalonSRX leftMaster = new TalonSRX(3);
-    TalonSRX leftFollower = new TalonSRX(4);
-    TalonSRX rightMaster = new TalonSRX(1);
-    TalonSRX rightFollower = new TalonSRX(2);
+    TalonSRX leftMaster = new TalonSRX(1);
+    TalonSRX leftFollower = new TalonSRX(2);
+    TalonSRX rightMaster = new TalonSRX(3);
+    TalonSRX rightFollower = new TalonSRX(4);
 
     private static final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
     private static final double HUNDRED_MS_TO_S = 10.0;
