@@ -84,7 +84,7 @@ public class DriveTrainIOReal implements DriveTrainIO {
     }
 
     @Override
-    public void setVelocity(double leftVelocity, double rightVelocity) {
+    public void setVelocityRadiansPerSecond(double leftVelocity, double rightVelocity) {
         double leftFFVolts = leftModel.calculate(leftVelocity);
         double rightFFVolts = rightModel.calculate(rightVelocity);
         leftMaster.set(ControlMode.Velocity, (leftVelocity / TICKS_TO_RAD) / 10, DemandType.ArbitraryFeedForward,

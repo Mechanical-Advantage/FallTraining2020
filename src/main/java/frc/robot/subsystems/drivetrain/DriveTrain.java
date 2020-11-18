@@ -57,10 +57,10 @@ public class DriveTrain extends SubsystemBase {
     io.setOutputVolts(leftOutput * 12, rightOutput * 12);
   }
 
-  public void setVelocity(double leftVelocity, double rightVelocity) {
+  public void setVelocityRadiansPerSecond(double leftVelocity, double rightVelocity) {
     this.leftVelocity = leftVelocity;
     this.rightVelocity = rightVelocity;
-    io.setVelocity(leftVelocity, rightVelocity);
+    io.setVelocityRadiansPerSecond(leftVelocity, rightVelocity);
   }
 
   public double getLeftPositionRadians() {
