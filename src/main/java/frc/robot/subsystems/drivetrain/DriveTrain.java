@@ -19,6 +19,8 @@ public class DriveTrain extends SubsystemBase {
   private double rightVelocityRadiansPerSecond;
   private double leftOutputVoltage;
   private double rightOutputVoltage;
+  private double leftVelocity;
+  private double rightVelocity;
 
   /**
    * Creates a new DriveTrain.
@@ -41,12 +43,24 @@ public class DriveTrain extends SubsystemBase {
     rightOutputVoltage = io.getRightOutputVoltage();
 
     // Log encoder positions
-    SmartDashboard.putNumber("Left Encoder (degrees)", io.getLeftPositionRadians() * (180 / Math.PI));
-    SmartDashboard.putNumber("Right Encoder (degrees)", io.getRightPositionRadians() * (180 / Math.PI));
+    SmartDashboard.putNumber("Left Encoder Position (degrees)", leftPositionRadians * (180 / Math.PI));
+    SmartDashboard.putNumber("Right Encoder Position (degrees)", rightPositionRadians * (180 / Math.PI));
+
+    // Log encoder velocity & target
+    SmartDashboard.putNumber("Left Encoder Velocity (radians/second)", leftVelocityRadiansPerSecond);
+    SmartDashboard.putNumber("Right Encoder Velocity (radians/second)", rightVelocityRadiansPerSecond);
+    SmartDashboard.putNumber("Left Target Velocity (radians/second)", leftVelocity);
+    SmartDashboard.putNumber("Right Target Velocity (radians/second)", rightVelocity);
   }
 
   public void setPercentOutputs(double leftOutput, double rightOutput) {
     io.setOutputVolts(leftOutput * 12, rightOutput * 12);
+  }
+
+  public void setVelocity(double leftVelocity, double rightVelocity) {
+    this.leftVelocity = leftVelocity;
+    this.rightVelocity = rightVelocity;
+    io.setVelocity(leftVelocity, rightVelocity);
   }
 
   public double getLeftPositionRadians() {
