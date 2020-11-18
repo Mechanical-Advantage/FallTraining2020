@@ -5,27 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.spinner;
+package frc.robot.subsystems.drive;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Spinner extends SubsystemBase {
-  private SpinnerIO io;
+public class Drive extends SubsystemBase {
+  private DriveIO io;
 
   /**
-   * Creates a new Spinner.
+   * Creates a new Drive.
    */
-  public Spinner(SpinnerIO io) {
+  public Drive(DriveIO io) {
     this.io = io;
     io.setup();
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void setSpeed(double leftMotor, double rightMotor) {
+    io.setOutputVolts(leftMotor * 12, rightMotor * 12);
   }
 
-  public void setPercentOutput(double output) {
-    io.setOutputVolts(output * 12);
+  @Override
+  public void periodic() {
+
+    // This method will be called once per scheduler run
   }
 }

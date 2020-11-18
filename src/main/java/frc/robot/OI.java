@@ -48,4 +48,16 @@ public class OI {
     public Trigger getRunBackwardsSlowButton() {
         return runBackwardsSlowButton;
     }
+
+    public double getSpinnerAxis() {
+        return controller.getRawAxis(0);
+    }
+
+    public double getRightAxis() {
+        return controller.getRawAxis(5);
+    }
+
+    public double getLeftAxis() {
+        return controller.getRawAxis(1);
+    }
 }

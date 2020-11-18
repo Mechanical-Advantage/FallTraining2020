@@ -7,25 +7,22 @@
 
 package frc.robot.subsystems.spinner;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-public class Spinner extends SubsystemBase {
-  private SpinnerIO io;
+public class SpinnerIOReal implements SpinnerIO {
+  VictorSPX motor = new VictorSPX(10); // TBD confirm correct can-id
 
-  /**
-   * Creates a new Spinner.
-   */
-  public Spinner(SpinnerIO io) {
-    this.io = io;
-    io.setup();
+  @Override
+  public void setup() {
+    motor.configFactoryDefault();
+    motor.setInverted(false);
+    motor.configVoltageCompSaturation(12);
+
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
-  public void setPercentOutput(double output) {
-    io.setOutputVolts(output * 12);
+  public void setOutputVolts(double voltage) {
+    motor.set(ControlMode.PercentOutput, voltage / 12);
   }
 }

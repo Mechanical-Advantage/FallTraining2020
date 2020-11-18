@@ -7,11 +7,19 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.RunSpinner;
+import frc.robot.commands.RunWithJoystick;
 import frc.robot.subsystems.spinner.*;
 import frckit.simulation.devices.SimTimer;
 import frckit.util.StoredDoubleSupplier;
+import frc.robot.subsystems.drive.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -26,6 +34,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final Spinner spinner;
+  private final Drive drive;
   private final StoredDoubleSupplier timestamp;
 
   /**
@@ -38,12 +47,20 @@ public class RobotContainer {
       case SIM_NOTBOT:
         spinner = new Spinner(new SpinnerIOSim());
         timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
+        drive = new Drive(new DriveIOSim());
+        break;
+      case ROBOT_NOTBOT:
+        spinner = new Spinner(new SpinnerIOReal());
+        timestamp = new StoredDoubleSupplier(Timer::getFPGATimestamp);
+        drive = new Drive(new DriveIOReal()); // Change this to io real version
         break;
 
       default:
         spinner = new Spinner(new SpinnerIO() {
         });
         timestamp = new StoredDoubleSupplier(() -> 0.0);
+        drive = new Drive(new DriveIO() {
+        });
     }
 
     configureInputs();
@@ -64,9 +81,11 @@ public class RobotContainer {
     // oi.getRunForwardsFastButton().whenActive(new RunSpinner(spinner));//Maps a
     // button to a command
     oi.getRunForwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, 1.0));
-    oi.getRunForwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, 0.3));
+    oi.getRunForwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, 0.1));
     oi.getRunBackwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, -1.0));
-    oi.getRunBackwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, -0.3));
+    oi.getRunBackwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, -0.1));
+    spinner.setDefaultCommand(new RunWithJoystick(spinner, oi::getSpinnerAxis));
+    drive.setDefaultCommand(new DriveWithJoysticks(drive, oi::getLeftAxis, oi::getRightAxis));
   }
 
   /**
@@ -76,6 +95,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return new SequentialCommandGroup(new RunSpinner(spinner, 0.1).withTimeout(5), new WaitCommand(5),
+        new RunSpinner(spinner, -0.1).withTimeout(5));
+    // return null;
   }
 }
