@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrain extends SubsystemBase {
+  private static final double WHEEL_RADIUS = 3;
+
   private DriveTrainIO io;
 
   private double leftPositionRadians;
@@ -43,8 +45,8 @@ public class DriveTrain extends SubsystemBase {
     rightOutputVoltage = io.getRightOutputVoltage();
 
     // Log encoder positions
-    SmartDashboard.putNumber("Left Encoder Position (degrees)", leftPositionRadians * (180 / Math.PI));
-    SmartDashboard.putNumber("Right Encoder Position (degrees)", rightPositionRadians * (180 / Math.PI));
+    SmartDashboard.putNumber("Left Encoder Position (radians)", leftPositionRadians);
+    SmartDashboard.putNumber("Right Encoder Position (radians)", rightPositionRadians);
 
     // Log encoder velocity & target
     SmartDashboard.putNumber("Left Encoder Velocity (radians/second)", leftVelocityRadiansPerSecond);
@@ -57,26 +59,26 @@ public class DriveTrain extends SubsystemBase {
     io.setOutputVolts(leftOutput * 12, rightOutput * 12);
   }
 
-  public void setVelocityRadiansPerSecond(double leftVelocity, double rightVelocity) {
-    this.leftVelocity = leftVelocity;
-    this.rightVelocity = rightVelocity;
-    io.setVelocityRadiansPerSecond(leftVelocity, rightVelocity);
+  public void setVelocityInchesPerSecond(double leftVelocity, double rightVelocity) {
+    this.leftVelocity = leftVelocity / WHEEL_RADIUS;
+    this.rightVelocity = rightVelocity / WHEEL_RADIUS;
+    io.setVelocityRadiansPerSecond(this.leftVelocity, this.rightVelocity);
   }
 
-  public double getLeftPositionRadians() {
-    return leftPositionRadians;
+  public double getLeftPositionInches() {
+    return leftPositionRadians * WHEEL_RADIUS;
   }
 
-  public double getRightPositionRadians() {
-    return rightPositionRadians;
+  public double getRightPositionInches() {
+    return rightPositionRadians * WHEEL_RADIUS;
   }
 
-  public double getLeftVelocityRadiansPerSecond() {
-    return leftVelocityRadiansPerSecond;
+  public double getLeftVelocityInchesPerSecond() {
+    return leftVelocityRadiansPerSecond * WHEEL_RADIUS;
   }
 
-  public double getRightVelocityRadiansPerSecond() {
-    return rightVelocityRadiansPerSecond;
+  public double getRightVelocityInchesPerSecond() {
+    return rightVelocityRadiansPerSecond * WHEEL_RADIUS;
   }
 
   public double getLeftOutputVoltage() {

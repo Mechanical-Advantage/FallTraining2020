@@ -33,6 +33,12 @@ public class DriveTrainIOSim implements DriveTrainIO {
     }
 
     @Override
+    public void setVelocityRadiansPerSecond(double leftVelocity, double rightVelocity) {
+        left.setOutputVoltage(leftVelocity * 0.24); // Estimating using open loop, need to fix
+        right.setOutputVoltage(rightVelocity * 0.24); // Estimating using open loop, need to fix
+    }
+
+    @Override
     public double getLeftPositionRadians() {
         return leftEncoder.getPositionRadians();
     }
