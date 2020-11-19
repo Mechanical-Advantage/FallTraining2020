@@ -7,9 +7,12 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
+  private double leftPositionRad = 0;
+  private double rightPositionRad = 0;
   private DrivetrainIO io;
   /**
    * Creates a new Drivetrain.
@@ -21,7 +24,12 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+     leftPositionRad = io.getLeftEncoderRad();
+     rightPositionRad = io.getRightEncoderRad();
+
+     SmartDashboard.putNumber("Left Encoder (inches)",leftPositionRad * 3 );
+     SmartDashboard.putNumber("Right Encoder (inches)",rightPositionRad * 3);
+
   }
   
   public void setMotorPercentOut(double leftMotor, double rightMotor) {

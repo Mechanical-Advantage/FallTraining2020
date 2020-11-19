@@ -55,11 +55,11 @@ public class OI {
     }
 
     public double getLeftDrivetrain() {
-        return getScaledAxis(1, 1.6);
+        return getScaledAxis(5, 1.6);
     }
 
     public double getRightDrivetrain() {
-        return getScaledAxis(5, 1.6);
+        return getScaledAxis(1, 1.6);
     }
 
     public Trigger getRunForwardsFastButton() {

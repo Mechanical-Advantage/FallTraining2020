@@ -7,10 +7,20 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
+
+
 /**
  * Add your docs here.
  */
 public interface DrivetrainIO {
+    public default double getLeftEncoderRad(){
+        return 0;
+    }
+    public default double getRightEncoderRad(){
+        return 0;
+    }
     public default void setup() {
     };
 

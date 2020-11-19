@@ -8,8 +8,10 @@
 package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 
 /**
  * Add your docs here.
@@ -19,6 +21,15 @@ public class DrivetrainIOReal implements DrivetrainIO {
     TalonSRX rightLeaderMotor = new TalonSRX(1);
     TalonSRX leftFollowerMotor = new TalonSRX(4);
     TalonSRX rightFollowerMotor = new TalonSRX(2);
+
+    private static final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
+
+    public double getLeftEncoderRad(){
+        return leftLeaderMotor.getSelectedSensorPosition() * TICKS_TO_RAD;
+    }
+    public double getRightEncoderRad(){
+        return rightLeaderMotor.getSelectedSensorPosition() * TICKS_TO_RAD;
+    }
 
     @Override
     public void setup() {
@@ -35,6 +46,12 @@ public class DrivetrainIOReal implements DrivetrainIO {
         rightFollowerMotor.follow(rightLeaderMotor);
         leftFollowerMotor.follow(leftLeaderMotor);
         
+        leftLeaderMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100);
+        rightLeaderMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100);
+        leftLeaderMotor.setSensorPhase(false);
+        rightLeaderMotor.setSensorPhase(false);
+        leftLeaderMotor.setSelectedSensorPosition(0);
+        rightLeaderMotor.setSelectedSensorPosition(0);
     }
 
     @Override
