@@ -27,7 +27,6 @@ public class OI {
     private final Button runBackwardsFastButton;
     private final Button runForwardsSlowButton;
     private final Button runBackwardsSlowButton;
-    private final double throttleValue;
 
     public OI(final int id) {
         controller = new Joystick(id);
@@ -36,7 +35,6 @@ public class OI {
         runBackwardsFastButton = new JoystickButton(controller, 1);
         runForwardsSlowButton = new JoystickButton(controller, 3);
         runBackwardsSlowButton = new JoystickButton(controller, 2);
-        throttleValue = controller.getRawAxis(5);
 
     }
 
@@ -47,6 +45,10 @@ public class OI {
 
     public double getLeftDriveX() {
         return controller.getRawAxis(1) * -1;
+    }
+
+    public double getSpinnerAxis() {
+        return controller.getRawAxis(3);
     }
 
     public Trigger getRunForwardsFastButton() {
