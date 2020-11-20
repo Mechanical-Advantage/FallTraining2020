@@ -7,10 +7,7 @@
 
 package frc.robot.subsystems.drive;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
@@ -48,11 +45,11 @@ public class DriveIOReal implements DriveIO {
     rightfollowermotor.setInverted(InvertType.FollowMaster);
     rightfollowermotor.follow(rightmotor);
 
-    leftmotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100);
+    leftmotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 1000);
     leftmotor.setSensorPhase(false);
     leftmotor.setSelectedSensorPosition(0);
 
-    rightmotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100);
+    rightmotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 1000);
     rightmotor.setSensorPhase(false);
     rightmotor.setSelectedSensorPosition(0);
 
@@ -62,6 +59,16 @@ public class DriveIOReal implements DriveIO {
     rightmotor.config_kP(0, KP);
     leftmotor.config_kD(0, KD);
     rightmotor.config_kD(0, KD);
+
+    // Configure status frame rate
+    leftmotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 5, 1000);
+    rightmotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 5, 1000);
+
+    // Configure velocity measurement period and window
+    leftmotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_50Ms, 1000);
+    rightmotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_50Ms, 1000);
+    leftmotor.configVelocityMeasurementWindow(1, 1000);
+    rightmotor.configVelocityMeasurementWindow(1, 1000);
   }
 
   public double getLeftPositionRadians() {
