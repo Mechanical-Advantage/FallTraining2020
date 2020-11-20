@@ -8,6 +8,7 @@
 package frc.robot.subsystems.drive;
 
 import frckit.simulation.devices.SimSimpleMotorController;
+import frckit.simulation.devices.SimTransmissionEncoder;
 
 /**
  * Add your docs here.
@@ -15,8 +16,20 @@ import frckit.simulation.devices.SimSimpleMotorController;
 public class DriveIOSim implements DriveIO {
     SimSimpleMotorController leftMotor = new SimSimpleMotorController(0);
     SimSimpleMotorController rightMotor = new SimSimpleMotorController(1);
+    SimTransmissionEncoder leftencoder = new SimTransmissionEncoder(0);
+    SimTransmissionEncoder rightencoder = new SimTransmissionEncoder(1);
 
     public void setup() {
+        leftencoder.setPositionRadians(0);
+        rightencoder.setPositionRadians(0);
+    }
+
+    public double getLeftPositionRadians() {
+        return leftencoder.getPositionRadians();
+    }
+
+    public double getRightPositionRadians() {
+        return rightencoder.getPositionRadians();
     }
 
     @Override

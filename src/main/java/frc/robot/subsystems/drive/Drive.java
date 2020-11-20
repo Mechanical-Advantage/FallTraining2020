@@ -7,10 +7,13 @@
 
 package frc.robot.subsystems.drive;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drive extends SubsystemBase {
   private DriveIO io;
+  private double leftEncoderValue = 0;
+  private double rightEncoderValue = 0;
 
   /**
    * Creates a new Drive.
@@ -27,6 +30,11 @@ public class Drive extends SubsystemBase {
   @Override
   public void periodic() {
 
+    leftEncoderValue = io.getLeftPositionRadians();
+    rightEncoderValue = io.getRightPositionRadians();
+
+    SmartDashboard.putNumber("leftPosition", leftEncoderValue);
+    SmartDashboard.putNumber("rightPosition", rightEncoderValue);
     // This method will be called once per scheduler run
   }
 }

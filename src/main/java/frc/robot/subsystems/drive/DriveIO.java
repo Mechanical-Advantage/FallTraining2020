@@ -12,8 +12,16 @@ package frc.robot.subsystems.drive;
  */
 public interface DriveIO {
     public default void setup() {
-    };
+    }
 
     public default void setOutputVolts(double leftVoltage, double rightVoltage) {
-    };
+    }
+
+    public default double getLeftPositionRadians() {
+        return 0;
+    }
+
+    public default double getRightPositionRadians() {
+        return 0;
+    }
 }

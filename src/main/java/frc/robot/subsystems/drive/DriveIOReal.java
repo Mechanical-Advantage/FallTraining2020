@@ -8,6 +8,7 @@
 package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -35,6 +36,27 @@ public class DriveIOReal implements DriveIO {
     rightfollowermotor.configFactoryDefault();
     rightfollowermotor.setInverted(InvertType.FollowMaster);
     rightfollowermotor.follow(rightmotor);
+
+    leftmotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100);
+    leftmotor.setSensorPhase(false);
+    leftmotor.setSelectedSensorPosition(0);
+
+    rightmotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100);
+    rightmotor.setSensorPhase(false);
+    rightmotor.setSelectedSensorPosition(0);
+  }
+
+  public double getLeftPositionRadians() {
+    leftmotor.getSelectedSensorPosition();
+    final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
+    return leftmotor.getSelectedSensorPosition() * TICKS_TO_RAD;
+
+  }
+
+  public double getRightPositionRadians() {
+    rightmotor.getSelectedSensorPosition();
+    final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
+    return rightmotor.getSelectedSensorPosition() * TICKS_TO_RAD;
 
   }
 

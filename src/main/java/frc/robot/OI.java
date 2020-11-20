@@ -54,7 +54,7 @@ public class OI {
     }
 
     public double getRightAxis() {
-        return controller.getRawAxis(5);
+        return controller.getRawAxis(3);
     }
 
     public double getLeftAxis() {
