@@ -20,14 +20,34 @@ public class OI {
     private Joystick controller;
 
     private Button runForwardsFastButton;
+    private Button runForwardsSlowButton;
+    private Button runBackwardsFastButton;
+    private Button runBackwardsSlowButton;
 
     public OI(int id) {
         controller = new Joystick(id);
 
-        runForwardsFastButton = new JoystickButton(controller, 2);
+        runForwardsFastButton = new JoystickButton(controller, 1);
+        runBackwardsFastButton = new JoystickButton(controller, 2);
+        runForwardsSlowButton = new JoystickButton(controller, 3);
+        runBackwardsSlowButton = new JoystickButton(controller, 4);
+        // for previous project, make four of these, map them, then adjust speed
+        // accordingly when called in RobotConatiner
     }
 
     public Trigger getRunForwardsFastButton() {
         return runForwardsFastButton;
+    }
+
+    public Trigger getRunForwardsSlowButton() {
+        return runForwardsSlowButton;
+    }
+
+    public Trigger getRunBackwardsFastButton() {
+        return runBackwardsFastButton;
+    }
+
+    public Trigger getRunBackwardsSlowButton() {
+        return runBackwardsSlowButton;
     }
 }
