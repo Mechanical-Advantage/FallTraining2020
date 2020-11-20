@@ -7,12 +7,21 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.DrivetrainControl;
 import frc.robot.commands.JoystickSpinner;
 import frc.robot.commands.RunSpinner;
-import frc.robot.subsystems.spinner.*;
+import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.subsystems.spinner.Spinner;
+import frc.robot.subsystems.spinner.SpinnerIO;
+import frc.robot.subsystems.spinner.SpinnerIORobot;
+import frc.robot.subsystems.spinner.SpinnerIOSim;
+import frc.robot.subsystems.drivetrain.DrivetrainIOReal;
+import frc.robot.subsystems.drivetrain.DrivetrainIOSim;
 import frckit.simulation.devices.SimTimer;
 import frckit.util.StoredDoubleSupplier;
 
@@ -30,6 +39,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Spinner spinner;
   private final StoredDoubleSupplier timestamp;
+  private final Drivetrain drivetrain;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -41,12 +51,19 @@ public class RobotContainer {
     case SIM_NOTBOT:
       spinner = new Spinner(new SpinnerIOSim());
       timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
+      drivetrain = new Drivetrain(new DrivetrainIOSim());
+      break;
+    case ROBOT_NOTBOT:
+      spinner = new Spinner(new SpinnerIORobot());
+      drivetrain = new Drivetrain(new DrivetrainIOReal());
+      timestamp = new StoredDoubleSupplier(Timer::getFPGATimestamp);
       break;
 
     default:
       spinner = new Spinner(new SpinnerIO() {
       });
       timestamp = new StoredDoubleSupplier(() -> 0.0);
+      drivetrain = new Drivetrain(new DrivetrainIOReal());
     }
 
     configureInputs();
@@ -71,6 +88,7 @@ public class RobotContainer {
     // oi.getCJoystick().whileActiveContinuous(new RunSpinner(spinner, 1.0));
     // oi.getCJoystick().whileActiveContinuous(new RunSpinner(spinner, 0));
     spinner.setDefaultCommand(new JoystickSpinner(spinner, oi::getLeftJoystick));
+    drivetrain.setDefaultCommand(new DrivetrainControl(drivetrain, oi::getLeftDrivetrain, oi::getRightDrivetrain));
   }
 
   public void execute() {

@@ -29,8 +29,6 @@ public class OI {
 
     private double getAxisPosition;
 
-    private Joystick CJoystick;
-
     public OI(int id) {
         controller = new Joystick(id);
 
@@ -38,7 +36,6 @@ public class OI {
         runForwardsButton = new JoystickButton(controller, 2);
         runBackwardsFastButton = new JoystickButton(controller, 3);
         runBackwardsButton = new JoystickButton(controller, 4);
-        CJoystick = new Joystick(0);
 
         /* update robotcontainer file with the new buttons */
     }
@@ -59,12 +56,20 @@ public class OI {
         return runBackwardsFastButton;
     }
 
-    // public Joystick getCJoystick() {
-    // return CJoystick;
-    // }
-
     public double getLeftJoystick() {
+        return controller.getRawAxis(0);
+    }
+
+    public double getRightJoystick() {
+        return controller.getRawAxis(2);
+    }
+
+    public double getLeftDrivetrain() {
         return controller.getRawAxis(1);
+    }
+
+    public double getRightDrivetrain() {
+        return controller.getRawAxis(5);
     }
 
 }
