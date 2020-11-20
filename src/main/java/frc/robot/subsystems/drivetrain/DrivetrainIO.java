@@ -16,4 +16,12 @@ public interface DrivetrainIO {
 
     public default void setOutputVolts(double leftVoltage, double rightVoltage) {
     };
+
+    public default double getLeftPositionRadians() {
+        return 0;
+    };
+
+    public default double getRightPositionRadians() {
+        return 0;
+    };
 }
