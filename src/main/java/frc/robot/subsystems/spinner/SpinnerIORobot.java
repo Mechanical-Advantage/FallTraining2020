@@ -15,7 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  */
 public class SpinnerIORobot implements SpinnerIO {
 
-    private VictorSPX motorController = new VictorSPX(2);
+    private VictorSPX motorController = new VictorSPX(10);
 
     @Override
     public void setup() {

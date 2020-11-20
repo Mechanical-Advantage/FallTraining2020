@@ -8,6 +8,7 @@
 package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -16,10 +17,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  */
 public class DrivetrainIOReal implements DrivetrainIO {
 
-    TalonSRX leftLeaderMotor = new TalonSRX(3);
-    TalonSRX rightLeaderMotor = new TalonSRX(1);
-    TalonSRX leftFollowerMotor = new TalonSRX(4);
-    TalonSRX rightFollowerMotor = new TalonSRX(2);
+    private static final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
+
+    TalonSRX leftLeaderMotor = new TalonSRX(1);
+    TalonSRX rightLeaderMotor = new TalonSRX(3);
+    TalonSRX leftFollowerMotor = new TalonSRX(2);
+    TalonSRX rightFollowerMotor = new TalonSRX(4);
 
     @Override
     public void setup() {
@@ -43,11 +46,28 @@ public class DrivetrainIOReal implements DrivetrainIO {
         rightFollowerMotor.follow(rightLeaderMotor);
         leftFollowerMotor.follow(leftLeaderMotor);
 
+        rightLeaderMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100);
+        leftLeaderMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100);
+        rightLeaderMotor.setSensorPhase(false);
+        leftLeaderMotor.setSensorPhase(false);
+        rightLeaderMotor.setSelectedSensorPosition(0);
+        leftLeaderMotor.setSelectedSensorPosition(0);
+
     }
 
     @Override
     public void setOutputVolts(double leftVoltage, double rightVoltage) {
         leftLeaderMotor.set(ControlMode.PercentOutput, leftVoltage / 12);
         rightLeaderMotor.set(ControlMode.PercentOutput, rightVoltage / 12);
+    }
+
+    public double getLeftPositionRadians() {
+        return leftLeaderMotor.getSelectedSensorPosition() * TICKS_TO_RAD;
+
+    }
+
+    public double getRightPositionRadians() {
+        return rightLeaderMotor.getSelectedSensorPosition() * TICKS_TO_RAD;
+
     }
 }

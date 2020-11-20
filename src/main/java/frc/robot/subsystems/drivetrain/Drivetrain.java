@@ -7,9 +7,17 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frckit.simulation.devices.SimTransmissionEncoder;
 
 public class Drivetrain extends SubsystemBase {
+
+  private double rightEncoderValue = 0;
+  private double leftEncoderValue = 0;
+
+  SimTransmissionEncoder encoder = new SimTransmissionEncoder(0);
+
   private DrivetrainIO io;
 
   /**
@@ -25,6 +33,11 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
 
+    leftEncoderValue = io.getLeftPositionRadians();
+    rightEncoderValue = io.getRightPositionRadians();
+
+    SmartDashboard.putNumber("leftPosition", leftEncoderValue);
+    SmartDashboard.putNumber("rightPosition", rightEncoderValue);
   }
 
   public void setMotorpercentOut(double leftMotor, double rightMotor) {
