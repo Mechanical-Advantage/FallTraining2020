@@ -8,9 +8,11 @@
 package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 /**
  * Add your docs here.
@@ -20,6 +22,15 @@ public class DriveIOReal implements DriveIO {
   TalonSRX rightmotor = new TalonSRX(3);
   TalonSRX leftfollowermotor = new TalonSRX(2);
   TalonSRX rightfollowermotor = new TalonSRX(4);
+
+  private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(0.641, 0.245, 0.0149);
+  private SimpleMotorFeedforward rightModel = new SimpleMotorFeedforward(0.626, 0.242, 0.0072);
+
+  private static final double KP = 5;
+  private static final double KD = 40;
+
+  private static final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
+
 
   public void setup() {
     leftmotor.configFactoryDefault();
@@ -44,18 +55,23 @@ public class DriveIOReal implements DriveIO {
     rightmotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100);
     rightmotor.setSensorPhase(false);
     rightmotor.setSelectedSensorPosition(0);
+
+
+    // Config closed loop
+    leftmotor.config_kP(0, KP);
+    rightmotor.config_kP(0, KP);
+    leftmotor.config_kD(0, KD);
+    rightmotor.config_kD(0, KD);
   }
 
   public double getLeftPositionRadians() {
     leftmotor.getSelectedSensorPosition();
-    final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
     return leftmotor.getSelectedSensorPosition() * TICKS_TO_RAD;
 
   }
 
   public double getRightPositionRadians() {
     rightmotor.getSelectedSensorPosition();
-    final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
     return rightmotor.getSelectedSensorPosition() * TICKS_TO_RAD;
 
   }
@@ -64,5 +80,15 @@ public class DriveIOReal implements DriveIO {
   public void setOutputVolts(double leftVoltage, double rightVoltage) {
     leftmotor.set(ControlMode.PercentOutput, leftVoltage / 12);
     rightmotor.set(ControlMode.PercentOutput, rightVoltage / 12);
+  }
+
+  @Override
+  public void setVelocityRadiansPerSecond(double leftVelocity, double rightVelocity) {
+    double leftFFVolts = leftModel.calculate(leftVelocity);
+    double rightFFVolts = rightModel.calculate(rightVelocity);
+    leftmotor.set(ControlMode.Velocity, (leftVelocity / TICKS_TO_RAD) / 10, DemandType.ArbitraryFeedForward,
+            leftFFVolts / 12);
+    rightmotor.set(ControlMode.Velocity, (rightVelocity / TICKS_TO_RAD) / 10, DemandType.ArbitraryFeedForward,
+            rightFFVolts / 12);
   }
 }

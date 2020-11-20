@@ -24,4 +24,8 @@ public interface DriveIO {
     public default double getRightPositionRadians() {
         return 0;
     }
+
+
+    public default void setVelocityRadiansPerSecond(double leftVelocity, double rightVelocity) {
+    };
 }

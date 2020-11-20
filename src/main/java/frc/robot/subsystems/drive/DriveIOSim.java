@@ -7,21 +7,34 @@
 
 package frc.robot.subsystems.drive;
 
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frckit.simulation.devices.SimSimpleMotorController;
+import frckit.simulation.devices.SimSmartMotorController;
 import frckit.simulation.devices.SimTransmissionEncoder;
 
 /**
  * Add your docs here.
  */
 public class DriveIOSim implements DriveIO {
-    SimSimpleMotorController leftMotor = new SimSimpleMotorController(0);
-    SimSimpleMotorController rightMotor = new SimSimpleMotorController(1);
+    SimSmartMotorController leftMotor = new SimSmartMotorController(0);
+    SimSmartMotorController rightMotor = new SimSmartMotorController(1);
     SimTransmissionEncoder leftencoder = new SimTransmissionEncoder(0);
     SimTransmissionEncoder rightencoder = new SimTransmissionEncoder(1);
+
+    private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(0, 0, 0);
+    private SimpleMotorFeedforward rightModel = new SimpleMotorFeedforward(0, 0, 0);
+
+    private static final double KP = 0;
+    private static final double KD = 0;
 
     public void setup() {
         leftencoder.setPositionRadians(0);
         rightencoder.setPositionRadians(0);
+
+        leftMotor.setKp(KP);
+        rightMotor.setKp(KP);
+        leftMotor.setKd(KD);
+        rightMotor.setKd(KD);
     }
 
     public double getLeftPositionRadians() {
@@ -36,5 +49,13 @@ public class DriveIOSim implements DriveIO {
     public void setOutputVolts(double leftVoltage, double rightVoltage) {
         leftMotor.setOutputVoltage(leftVoltage);
         rightMotor.setOutputVoltage(rightVoltage);
+    }
+
+    @Override
+    public void setVelocityRadiansPerSecond(double leftVelocity, double rightVelocity) {
+        double leftFFVolts = leftModel.calculate(leftVelocity);
+        double rightFFVolts = rightModel.calculate(rightVelocity);
+        leftMotor.setVelocitySetpoint(leftVelocity, leftFFVolts);
+        rightMotor.setVelocitySetpoint(rightVelocity, rightFFVolts);
     }
 }
