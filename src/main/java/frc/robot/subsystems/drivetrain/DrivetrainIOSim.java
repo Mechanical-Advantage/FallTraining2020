@@ -17,11 +17,11 @@ import frckit.simulation.devices.SimTransmissionEncoder;
  */
 public class DrivetrainIOSim implements DrivetrainIO {
 
-    SimTransmissionEncoder leftEncoder = new SimTransmissionEncoder(0);
-    SimTransmissionEncoder rightEncoder = new SimTransmissionEncoder(1);
+    private SimTransmissionEncoder leftEncoder = new SimTransmissionEncoder(0);
+    private SimTransmissionEncoder rightEncoder = new SimTransmissionEncoder(1);
 
-    SimSmartMotorController leftMotor = new SimSmartMotorController(0);
-    SimSmartMotorController rightMotor = new SimSmartMotorController(1);
+    private SimSmartMotorController leftMotor = new SimSmartMotorController(0);
+    private SimSmartMotorController rightMotor = new SimSmartMotorController(1);
 
 
     private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(0, 0, 0);
