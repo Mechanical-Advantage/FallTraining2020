@@ -13,8 +13,8 @@ import frckit.simulation.devices.SimSmartMotorController;
 
 public class DrivetrainIOSim implements DrivetrainIO {
 
-    SimSmartMotorController leftMotor = new SimSmartMotorController(0);
-    SimSmartMotorController rightMotor = new SimSmartMotorController(1);
+    private SimSmartMotorController leftMotor = new SimSmartMotorController(0);
+    private SimSmartMotorController rightMotor = new SimSmartMotorController(1);
 
 
     private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(0, 0, 0);
