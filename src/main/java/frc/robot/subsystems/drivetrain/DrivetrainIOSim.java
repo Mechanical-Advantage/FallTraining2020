@@ -8,7 +8,6 @@
 package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import frckit.simulation.devices.SimSimpleMotorController;
 import frckit.simulation.devices.SimSmartMotorController;
 import frckit.simulation.devices.SimTransmissionEncoder;
 
