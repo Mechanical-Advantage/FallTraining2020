@@ -14,6 +14,21 @@ public class Drivetrain extends SubsystemBase {
   private double leftPositionRad = 0;
   private double rightPositionRad = 0;
   private DrivetrainIO io;
+
+  private static final double WHEEL_RADIUS = 3;
+
+  public void setInchesPerSec(double leftVelocity, double rightVelocity){
+    io.setVelocityRadiansPerSecond(leftVelocity/WHEEL_RADIUS, rightVelocity/WHEEL_RADIUS);
+  }
+
+  public double getLeftEncoderValueInInches(){
+    return leftPositionRad * WHEEL_RADIUS;
+  }
+
+  public double getRightEncoderValueInInches(){
+    return rightPositionRad * WHEEL_RADIUS;
+  }
+
   /**
    * Creates a new Drivetrain.
    */
@@ -27,8 +42,9 @@ public class Drivetrain extends SubsystemBase {
      leftPositionRad = io.getLeftEncoderRad();
      rightPositionRad = io.getRightEncoderRad();
 
-     SmartDashboard.putNumber("Left Encoder (inches)",leftPositionRad * 3 );
-     SmartDashboard.putNumber("Right Encoder (inches)",rightPositionRad * 3);
+
+     SmartDashboard.putNumber("Left Encoder (inches)",leftPositionRad * WHEEL_RADIUS );
+     SmartDashboard.putNumber("Right Encoder (inches)",rightPositionRad * WHEEL_RADIUS);
 
   }
   

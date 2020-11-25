@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.AutoDriveToDistance;
 import frc.robot.commands.DrivetrainControl;
 import frc.robot.commands.JoystickSpinner;
 import frc.robot.commands.RunSpinner;
@@ -92,6 +93,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new SequentialCommandGroup(new RunSpinner(spinner, 1).withTimeout(5), new RunSpinner(spinner, -1).withTimeout(10)); 
+    //return new SequentialCommandGroup(new RunSpinner(spinner, 1).withTimeout(5), new RunSpinner(spinner, -1).withTimeout(10)); 
+    return new AutoDriveToDistance(drivetrain, 30);
   }
 }
