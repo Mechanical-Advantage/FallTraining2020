@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.drivetrain.DriveTrain;
@@ -17,11 +18,6 @@ public class DriveDistance extends CommandBase {
   private final double targetDistanceInches;
   private final PIDController controller;
 
-  private final double kp;
-  private final double ki;
-  private final double kd;
-  private final double tolerance;
-
   /**
    * Creates a new DriveDistance.
    */
@@ -30,6 +26,11 @@ public class DriveDistance extends CommandBase {
     this.driveTrain = driveTrain;
     this.targetDistanceInches = targetDistanceInches;
     addRequirements(driveTrain);
+
+    final double kp;
+    final double ki;
+    final double kd;
+    final double tolerance;
     switch (Constants.getRobot()) {
       case SIM_NOTBOT:
         kp = 6; // Not tuned
@@ -66,6 +67,7 @@ public class DriveDistance extends CommandBase {
   public void execute() {
     double velocity = controller.calculate(getDistance());
     driveTrain.setVelocityInchesPerSecond(velocity, velocity);
+    SmartDashboard.putNumber("Drive Distance Error (inches)", controller.getPositionError());
   }
 
   // Called once the command ends or is interrupted.
