@@ -33,10 +33,10 @@ public class DriveDistance extends CommandBase {
     final double tolerance;
     switch (Constants.getRobot()) {
       case SIM_NOTBOT:
-        kp = 6; // Not tuned
+        kp = 6;
         ki = 0;
-        kd = 0;
-        tolerance = 0.5; // Not tuned
+        kd = 2;
+        tolerance = 0.5;
         break;
 
       default:
