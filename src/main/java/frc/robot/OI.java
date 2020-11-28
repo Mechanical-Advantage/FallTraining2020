@@ -27,6 +27,7 @@ public class OI {
     private final Button runBackwardsFastButton;
     private final Button runForwardsSlowButton;
     private final Button runBackwardsSlowButton;
+    private double DEAD_BAND = .05;
 
     public OI(final int id) {
         controller = new Joystick(id);
@@ -40,15 +41,28 @@ public class OI {
 
     // throttleValue = new StoredDoubleSupplier(controller.getRawAxis(5));
     public double getRightDriveX() {
-        return controller.getRawAxis(2);
+        if (Math.abs(0 - controller.getRawAxis(2)) > DEAD_BAND) {
+            return controller.getRawAxis(2);
+        } else {
+            return 0;
+        }
     }
 
     public double getLeftDriveX() {
-        return controller.getRawAxis(1) * -1;
+        if (Math.abs(0 - controller.getRawAxis(1)) > DEAD_BAND) {
+            return controller.getRawAxis(1) * -1;
+        } else {
+            return 0;
+        }
     }
 
     public double getSpinnerAxis() {
-        return controller.getRawAxis(3);
+        if (Math.abs(0 - controller.getRawAxis(3)) > DEAD_BAND) {
+            return controller.getRawAxis(3);
+        } else {
+            return 0;
+        }
+
     }
 
     public Trigger getRunForwardsFastButton() {

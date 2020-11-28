@@ -29,4 +29,7 @@ public interface DrivetrainIO {
     return 0;
   }
 
+  public default void setVelocityRadiansPerSecond(double leftVelocity, double rightVelocity) {
+  };
+
 }

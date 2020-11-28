@@ -15,6 +15,9 @@ public class Drivetrain extends SubsystemBase {
    * Creates a new Drivetrain.
    */
   private DrivetrainIO io;
+  private double leftRadians = 0;
+  private double rightRadians = 0;
+  private static final double WHEEL_RADIUS = 3;
 
   public Drivetrain(DrivetrainIO io) {
     this.io = io;
@@ -24,12 +27,27 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Left Encoder", io.getLeftPositionRadians());
-    SmartDashboard.putNumber("Right Encoder", io.getLeftPositionRadians());
+    leftRadians = io.getLeftPositionRadians();
+    rightRadians = io.getRightPositionRadians();
+    SmartDashboard.putNumber("Left Encoder", io.getLeftPositionRadians() * WHEEL_RADIUS);
+    SmartDashboard.putNumber("Right Encoder", io.getRightPositionRadians() * WHEEL_RADIUS);
   }
 
   public void setMotorOutput(double leftOutput, double rightOutput) {
     // System.out.println(output);
     io.setOutputVolts(leftOutput * 12, rightOutput * 12);
   }
+
+  public void setVelocityInchesPerSecond(double leftVelocity, double rightVelocity) {
+    io.setVelocityRadiansPerSecond(leftVelocity, rightVelocity);
+  };
+
+  public double getLeftEncoderInches() {
+    return leftRadians * WHEEL_RADIUS;
+  }
+
+  public double getRightEncoderInches() {
+    return rightRadians * WHEEL_RADIUS;
+  }
+
 }

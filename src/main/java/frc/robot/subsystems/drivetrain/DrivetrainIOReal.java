@@ -10,9 +10,13 @@ package frc.robot.subsystems.drivetrain;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+
+import edu.wpi.first.wpilibj.PIDController;
 
 /**
  * Add your docs here.
@@ -23,6 +27,8 @@ public class DrivetrainIOReal implements DrivetrainIO {
     TalonSRX rightLeaderMotor = new TalonSRX(3);
     TalonSRX rightFollowerMotor = new TalonSRX(4);
     private final static double TICKS_TO_RAD = (2.0 * Math.PI) / 1440;
+    private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(0.641, 0.245, 0.0149);
+    private SimpleMotorFeedforward rightModel = new SimpleMotorFeedforward(0.626, 0.242, 0.0072);
 
     @Override
     public void setup() {
@@ -59,6 +65,15 @@ public class DrivetrainIOReal implements DrivetrainIO {
     @Override
     public double getRightPositionRadians() {
         return rightLeaderMotor.getSelectedSensorPosition() * TICKS_TO_RAD;
+    }
+
+    public void setVelocityRadiansPerSecond(double leftVelocity, double rightVelocity) {
+        double leftFFVolts = leftModel.calculate(leftVelocity);
+        double rightFFVolts = rightModel.calculate(rightVelocity);
+        leftLeaderMotor.set(ControlMode.Velocity, (leftVelocity / TICKS_TO_RAD) / 10, DemandType.ArbitraryFeedForward,
+                leftFFVolts / 12);
+        rightLeaderMotor.set(ControlMode.Velocity, (rightVelocity / TICKS_TO_RAD) / 10, DemandType.ArbitraryFeedForward,
+                rightFFVolts / 12);
     }
 
 }
