@@ -13,5 +13,6 @@
     "**/.factorypath": true,
     "**/*~": true
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "wpilib.stopSimulationOnEntry": true
 }

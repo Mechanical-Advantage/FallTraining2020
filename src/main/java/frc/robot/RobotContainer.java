@@ -7,11 +7,17 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.RunSpinner;
+import frc.robot.commands.RunSpinnerWithJoystick;
 import frc.robot.subsystems.spinner.*;
 import frckit.simulation.devices.SimTimer;
 import frckit.util.StoredDoubleSupplier;
+//import frc.robot.commands.RunWithJoystick;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -61,10 +67,14 @@ public class RobotContainer {
    */
   private void configureInputs() {
     // spinner.setDefaultCommand(new RunSpinner(spinner));
+
     oi.getRunForwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, 1.0));
+
     oi.getRunForwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, 0.5));
     oi.getRunBackwardsFastButton().whileActiveContinuous(new RunSpinner(spinner, -1.0));
     oi.getRunBackwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, -0.5));
+
+    spinner.setDefaultCommand(new RunSpinnerWithJoystick(spinner, oi::getSpinnerAxis));
   }
 
   /**
