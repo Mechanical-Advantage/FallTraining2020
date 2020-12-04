@@ -15,6 +15,7 @@ public class Drivetrain extends SubsystemBase {
 
   private double rightEncoderValue = 0;
   private double leftEncoderValue = 0;
+  public static final double wheelRadius = 3;
 
   SimTransmissionEncoder encoder = new SimTransmissionEncoder(0);
 
@@ -43,5 +44,17 @@ public class Drivetrain extends SubsystemBase {
   public void setMotorpercentOut(double leftMotor, double rightMotor) {
     io.setOutputVolts(leftMotor * 12, rightMotor * 12);
   }
+
+  public double getLeftEncoderValuesInches() {
+    return leftEncoderValue * wheelRadius;
+  }
+
+  public double getRightEncoderValuesInches() {
+    return rightEncoderValue * wheelRadius;
+  }
+
+  public void setVelocityInchesPerSecond(double leftVelocity, double rightVelocity) {
+    io.setVelocityRadiansPerSecond(leftVelocity / wheelRadius, rightVelocity / wheelRadius);
+  };
 
 }

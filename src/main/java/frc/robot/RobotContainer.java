@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DrivetrainControl;
 import frc.robot.commands.RunSpinner;
 import frc.robot.commands.RunSpinnerWithJoystick;
@@ -84,6 +85,7 @@ public class RobotContainer {
 
     drivetrain.setDefaultCommand(new DrivetrainControl(drivetrain, oi::getLeftDrivetrain, oi::getRightDrivetrain));
     spinner.setDefaultCommand(new RunSpinnerWithJoystick(spinner, oi::getSpinnerJoystick));
+
   }
 
   /**
@@ -93,7 +95,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new SequentialCommandGroup(new RunSpinner(spinner, 1).withTimeout(5.0), new WaitCommand(5.0),
-        new RunSpinner(spinner, -1));
+    // return new SequentialCommandGroup(new RunSpinner(spinner,
+    // 1).withTimeout(5.0), new WaitCommand(5.0),
+    // new RunSpinner(spinner, -1));
+    return new DriveDistance(drivetrain, 60);
   }
 }

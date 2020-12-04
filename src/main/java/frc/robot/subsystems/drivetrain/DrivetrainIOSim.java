@@ -23,13 +23,11 @@ public class DrivetrainIOSim implements DrivetrainIO {
     private SimSmartMotorController leftMotor = new SimSmartMotorController(0);
     private SimSmartMotorController rightMotor = new SimSmartMotorController(1);
 
+    private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(0.6, 0.172, 0.124);
+    private SimpleMotorFeedforward rightModel = new SimpleMotorFeedforward(0.6, 0.172, 0.124);
 
-    private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(0, 0, 0);
-    private SimpleMotorFeedforward rightModel = new SimpleMotorFeedforward(0, 0, 0);
-
-    private static final double KP = 0;
+    private static final double KP = 3.73;
     private static final double KD = 0;
-
 
     @Override
     public void setup() {

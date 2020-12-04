@@ -25,6 +25,6 @@ public final class SimulatorMain {
    * If you change your main robot class, change the parameter type.
    */
   public static void main(String... args) {
-    ExternalSimLauncher.launch("trashcan.dyn.wpi.edu", 24604, Robot.class);
+    ExternalSimLauncher.launch("ma.sim.came20.net", 24604, Robot.class);
   }
 }
