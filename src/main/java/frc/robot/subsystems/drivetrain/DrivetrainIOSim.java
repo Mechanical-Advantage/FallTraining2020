@@ -8,6 +8,7 @@
 package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import frckit.simulation.devices.SimIMU;
 import frckit.simulation.devices.SimSmartMotorController;
 import frckit.simulation.devices.SimTransmissionEncoder;
 
@@ -20,11 +21,17 @@ public class DrivetrainIOSim implements DrivetrainIO {
     private SimTransmissionEncoder leftEncoder = new SimTransmissionEncoder(0);
     private SimTransmissionEncoder rightEncoder = new SimTransmissionEncoder(1);
 
-    private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(0, 0, 0);
-    private SimpleMotorFeedforward rightModel = new SimpleMotorFeedforward(0, 0, 0);
+    private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(.6, .172, .124);
+    private SimpleMotorFeedforward rightModel = new SimpleMotorFeedforward(.6, .172, .124);
 
-    private static final double KP = 0;
+    private SimIMU gyro = new SimIMU(0);
+
+    private static final double KP = 3.73;
     private static final double KD = 0;
+
+    public double getGyroRads() {
+        return gyro.getYawRadians();
+    };
 
     @Override
     public void setup() {
@@ -35,6 +42,8 @@ public class DrivetrainIOSim implements DrivetrainIO {
         rightMotor.setKp(KP);
         leftMotor.setKd(KD);
         rightMotor.setKd(KD);
+
+        gyro.setYaw(0);
     }
 
     @Override

@@ -9,12 +9,17 @@ package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 /**
  * Add your docs here.
  */
 public class DrivetrainIOReal implements DrivetrainIO {
+
+    private static final double CONVERT_TO_RADS = 180 / Math.PI;
+
     private static final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
     TalonSRX leftLeaderMotor = new TalonSRX(1);
     TalonSRX rightLeaderMotor = new TalonSRX(3);
@@ -24,8 +29,14 @@ public class DrivetrainIOReal implements DrivetrainIO {
     private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(0.641, 0.245, 0.0149);
     private SimpleMotorFeedforward rightModel = new SimpleMotorFeedforward(0.626, 0.242, 0.0072);
 
+    private AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+
     private static final double KP = 5;
     private static final double KD = 40;
+
+    public double getGyroRads() {
+        return gyro.getAngle() * CONVERT_TO_RADS;
+    };
 
     @Override
     public void setup() {
@@ -48,7 +59,6 @@ public class DrivetrainIOReal implements DrivetrainIO {
         leftLeaderMotor.setSelectedSensorPosition(0);
         rightLeaderMotor.setSelectedSensorPosition(0);
 
-
         // Config closed loop
         leftLeaderMotor.config_kP(0, KP);
         rightLeaderMotor.config_kP(0, KP);
@@ -64,6 +74,8 @@ public class DrivetrainIOReal implements DrivetrainIO {
         rightLeaderMotor.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_50Ms, 1000);
         leftLeaderMotor.configVelocityMeasurementWindow(1, 1000);
         rightLeaderMotor.configVelocityMeasurementWindow(1, 1000);
+
+        gyro.zeroYaw();
     }
 
     @Override
