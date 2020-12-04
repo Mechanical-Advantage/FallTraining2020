@@ -14,6 +14,7 @@ public class Drive extends SubsystemBase {
   private DriveIO io;
   private double leftEncoderValue = 0;
   private double rightEncoderValue = 0;
+  private static final double WHEELRADIUS = 3;
 
   /**
    * Creates a new Drive.
@@ -26,6 +27,18 @@ public class Drive extends SubsystemBase {
   public void setSpeed(double leftMotor, double rightMotor) {
     io.setOutputVolts(leftMotor * 12, rightMotor * 12);
   }
+
+  public double getLeftPositionInches() {
+    return leftEncoderValue * WHEELRADIUS;
+  }
+
+  public double getRightPositionInches() {
+    return rightEncoderValue * WHEELRADIUS;
+  }
+
+  public void setVelocityInchesPerSecond(double leftVelocity, double rightVelocity) {
+    io.setVelocityRadiansPerSecond(leftVelocity / WHEELRADIUS, rightVelocity / WHEELRADIUS);
+  };
 
   @Override
   public void periodic() {

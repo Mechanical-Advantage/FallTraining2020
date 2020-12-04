@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.RunSpinner;
 import frc.robot.commands.RunWithJoystick;
@@ -93,8 +94,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new SequentialCommandGroup(new RunSpinner(spinner, 0.1).withTimeout(5), new WaitCommand(5),
-        new RunSpinner(spinner, -0.1).withTimeout(5));
+    // return new SequentialCommandGroup(new RunSpinner(spinner,
+    // 0.1).withTimeout(5), new WaitCommand(5),
+    // new RunSpinner(spinner, -0.1).withTimeout(5));
     // return null;
+    return new DriveDistance(drive, 36);
   }
 }

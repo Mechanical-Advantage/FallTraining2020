@@ -21,10 +21,10 @@ public class DriveIOSim implements DriveIO {
     SimTransmissionEncoder leftencoder = new SimTransmissionEncoder(0);
     SimTransmissionEncoder rightencoder = new SimTransmissionEncoder(1);
 
-    private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(0, 0, 0);
-    private SimpleMotorFeedforward rightModel = new SimpleMotorFeedforward(0, 0, 0);
+    private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(0.6, 0.172, 0.124);
+    private SimpleMotorFeedforward rightModel = new SimpleMotorFeedforward(0.6, 0.172, 0.124);
 
-    private static final double KP = 0;
+    private static final double KP = 3.73;
     private static final double KD = 0;
 
     public void setup() {
