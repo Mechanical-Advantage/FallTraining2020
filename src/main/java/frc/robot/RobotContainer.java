@@ -18,6 +18,7 @@ import frc.robot.subsystems.spinner.*;
 import frckit.simulation.devices.SimTimer;
 import frckit.util.StoredDoubleSupplier;
 import frc.robot.commands.RunSpinnerWithJoystick;
+import frc.robot.commands.TurnToAngle;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.shuffleboard.*;
@@ -101,6 +102,6 @@ public class RobotContainer {
     // return null;
     // return new SequentialCommandGroup(new WaitCommand(3), new RunSpinner(spinner,
     // -0.1).withTimeout(3),new RunSpinner(spinner, 0.3));
-    return (new DriveDistance(drivetrain, 60));
+    return (new TurnToAngle(drivetrain, 60));
   }
 }

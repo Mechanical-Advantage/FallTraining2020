@@ -14,9 +14,13 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.SerialPort;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 
 /**
  * Add your docs here.
@@ -29,6 +33,7 @@ public class DrivetrainIOReal implements DrivetrainIO {
     private final static double TICKS_TO_RAD = (2.0 * Math.PI) / 1440;
     private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(0.641, 0.245, 0.0149);
     private SimpleMotorFeedforward rightModel = new SimpleMotorFeedforward(0.626, 0.242, 0.0072);
+    private AHRS gyro = new AHRS(Port.kUSB);
 
     @Override
     public void setup() {
@@ -48,6 +53,7 @@ public class DrivetrainIOReal implements DrivetrainIO {
         rightLeaderMotor.setSensorPhase(false);
         rightLeaderMotor.setSelectedSensorPosition(0);
         leftLeaderMotor.setSelectedSensorPosition(0);
+        gyro.zeroYaw();
     }
 
     @Override
@@ -65,6 +71,11 @@ public class DrivetrainIOReal implements DrivetrainIO {
     @Override
     public double getRightPositionRadians() {
         return rightLeaderMotor.getSelectedSensorPosition() * TICKS_TO_RAD;
+    }
+
+    @Override
+    public double getGyroYawRadians() {
+        return gyro.getAngle() * Math.PI / 180;
     }
 
     public void setVelocityRadiansPerSecond(double leftVelocity, double rightVelocity) {

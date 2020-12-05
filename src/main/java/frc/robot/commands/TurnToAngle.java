@@ -7,28 +7,22 @@
 
 package frc.robot.commands;
 
-import javax.lang.model.util.ElementScanner6;
-
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
-public class DriveDistance extends CommandBase {
+public class TurnToAngle extends CommandBase {
   /**
-   * Creates a new DriveDistance.
+   * Creates a new TurnToAngle.
    */
   private final Drivetrain drivetrain;
-  private double avgPosition, leftVelocity, rightVelocity, distance;
-  private PIDController distanceController;
+  private double angle;
+  private PIDController turnController;
   private int setPointCounter;
 
-  private double getAverageEncoders() {
-    return (drivetrain.getLeftEncoderInches() + drivetrain.getRightEncoderInches()) / 2;
-  }
-
-  public DriveDistance(Drivetrain drivetrain, double distance) {
+  public TurnToAngle(Drivetrain drivetrain, double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
     final double Kp;
     final double Ki;
@@ -57,49 +51,47 @@ public class DriveDistance extends CommandBase {
 
     }
     this.drivetrain = drivetrain;
-    this.distance = distance;
+    this.angle = angle;
     addRequirements(drivetrain);
-    distanceController = new PIDController(Kp, Ki, Kd);
-    distanceController.setTolerance(tolerance);
+    turnController = new PIDController(Kp, Ki, Kd);
+    turnController.setTolerance(tolerance);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     setPointCounter = 0;
-    distanceController.reset();
-    distanceController.setSetpoint(getAverageEncoders() + distance);
+    turnController.reset();
+    turnController.setSetpoint(drivetrain.getGyroYawRadians() + angle);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double velocity = distanceController.calculate(getAverageEncoders());
-    drivetrain.setVelocityInchesPerSecond(velocity, velocity);
-    SmartDashboard.putNumber("Velocity ", velocity);
-    SmartDashboard.putNumber("Distance error ", distanceController.getPositionError());
-
+    double velocity = turnController.calculate(drivetrain.getGyroYawRadians());
+    drivetrain.setVelocityInchesPerSecond(-velocity, velocity);
+    SmartDashboard.putNumber("Angle error ", turnController.getPositionError());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     drivetrain.setVelocityInchesPerSecond(0, 0);
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (distanceController.atSetpoint()) {
+    if (turnController.atSetpoint()) {
       setPointCounter++;
     } else {
       setPointCounter = 0;
     }
     if (setPointCounter > 6) {
-      return distanceController.atSetpoint();
+      return turnController.atSetpoint();
     } else {
       return false;
     }
+
   }
 }

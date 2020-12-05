@@ -18,6 +18,7 @@ public class Drivetrain extends SubsystemBase {
   private double leftRadians = 0;
   private double rightRadians = 0;
   private static final double WHEEL_RADIUS = 3;
+  public double gyroYaw = 0;
 
   public Drivetrain(DrivetrainIO io) {
     this.io = io;
@@ -29,6 +30,7 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
     leftRadians = io.getLeftPositionRadians();
     rightRadians = io.getRightPositionRadians();
+    gyroYaw = io.getGyroYawRadians();
     SmartDashboard.putNumber("Left Encoder", io.getLeftPositionRadians() * WHEEL_RADIUS);
     SmartDashboard.putNumber("Right Encoder", io.getRightPositionRadians() * WHEEL_RADIUS);
   }
@@ -48,6 +50,10 @@ public class Drivetrain extends SubsystemBase {
 
   public double getRightEncoderInches() {
     return rightRadians * WHEEL_RADIUS;
+  }
+
+  public double getGyroYawRadians() {
+    return gyroYaw;
   }
 
 }

@@ -32,4 +32,8 @@ public interface DrivetrainIO {
   public default void setVelocityRadiansPerSecond(double leftVelocity, double rightVelocity) {
   };
 
+  public default double getGyroYawRadians() {
+    return 0;
+  };
+
 }
