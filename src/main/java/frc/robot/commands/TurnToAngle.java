@@ -30,24 +30,24 @@ public class TurnToAngle extends CommandBase {
     final double tolerance;
     switch (Constants.getRobot()) {
     case SIM_NOTBOT:
-      Kp = 2.0;
+      Kp = 60.0;
       Ki = 0.0;
-      Kd = 0.3;
-      tolerance = 1.0;
+      Kd = 8.0;
+      tolerance = .01;
 
       break;
     case ROBOT_NOTBOT:
       Kp = 1.0;
       Ki = 0.0;
       Kd = 0.0;
-      tolerance = 1.5;
+      tolerance = .05;
       break;
 
     default:
       Kp = 1.0;
       Ki = 0.0;
       Kd = 0.0;
-      tolerance = 2.0;
+      tolerance = .05;
 
     }
     this.drivetrain = drivetrain;

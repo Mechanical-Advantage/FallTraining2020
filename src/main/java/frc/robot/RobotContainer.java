@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DrivetrainWithJoystick;
 import frc.robot.commands.RunSpinner;
@@ -102,6 +103,16 @@ public class RobotContainer {
     // return null;
     // return new SequentialCommandGroup(new WaitCommand(3), new RunSpinner(spinner,
     // -0.1).withTimeout(3),new RunSpinner(spinner, 0.3));
-    return (new TurnToAngle(drivetrain, 60));
+    // return (new TurnToAngle(drivetrain, 1.04));
+    // return new SequentialCommandGroup(new TurnToAngle(drivetrain, 1.04),
+    // new ParallelCommandGroup(new RunSpinner(spinner, 0.3).perpetually()), new
+    // DriveDistance(drivetrain, 60),
+    // new TurnToAngle(drivetrain, 2.04), new DriveDistance(drivetrain, 60));
+    return new ParallelCommandGroup(new RunSpinner(spinner, 0.8),
+        new SequentialCommandGroup(new TurnToAngle(drivetrain, 1.58), new DriveDistance(drivetrain, 60),
+            new TurnToAngle(drivetrain, 1.58), new DriveDistance(drivetrain, 60), new TurnToAngle(drivetrain, 1.58),
+            new DriveDistance(drivetrain, 60))
+
+    );
   }
 }
