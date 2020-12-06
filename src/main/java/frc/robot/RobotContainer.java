@@ -11,10 +11,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DrivetrainControl;
 import frc.robot.commands.RunSpinner;
 import frc.robot.commands.RunSpinnerWithJoystick;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.spinner.*;
 import frc.robot.subsystems.drivetrain.*;
 import frckit.simulation.devices.SimTimer;
@@ -97,10 +100,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    return new SequentialCommandGroup(new DriveDistance(drivetrain, 60), new TurnToAngle(drivetrain, Math.PI),
+        new WaitCommand(1), new DriveDistance(drivetrain, 60));
     // An ExampleCommand will run in autonomous
     // return new SequentialCommandGroup(new RunSpinner(spinner,
     // 1).withTimeout(5.0), new WaitCommand(5),
     // new RunSpinner(spinner, -1));
-    return new DriveDistance(drivetrain, 60);
+    // return new DriveDistance(drivetrain, 60);
+    // return new TurnToAngle(drivetrain, Math.pi);
   }
 }
