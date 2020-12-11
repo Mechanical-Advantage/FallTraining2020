@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import edu.wpi.first.wpilibj.GyroBase;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frckit.simulation.devices.SimTransmissionEncoder;
@@ -16,6 +18,7 @@ public class Drivetrain extends SubsystemBase {
   private double rightEncoderValue = 0;
   private double leftEncoderValue = 0;
   public static final double wheelRadius = 3;
+  private double gyroRadians = 0;
 
   SimTransmissionEncoder encoder = new SimTransmissionEncoder(0);
 
@@ -39,6 +42,10 @@ public class Drivetrain extends SubsystemBase {
 
     SmartDashboard.putNumber("leftPosition", leftEncoderValue);
     SmartDashboard.putNumber("rightPosition", rightEncoderValue);
+    SmartDashboard.putNumber("GyroRadians", gyroRadians);
+
+    gyroRadians = io.getGyroRadians();
+
   }
 
   public void setMotorpercentOut(double leftMotor, double rightMotor) {
@@ -55,6 +62,10 @@ public class Drivetrain extends SubsystemBase {
 
   public void setVelocityInchesPerSecond(double leftVelocity, double rightVelocity) {
     io.setVelocityRadiansPerSecond(leftVelocity / wheelRadius, rightVelocity / wheelRadius);
+  };
+
+  public double getGyroRadians() {
+    return gyroRadians;
   };
 
 }

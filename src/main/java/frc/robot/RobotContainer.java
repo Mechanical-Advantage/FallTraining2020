@@ -13,6 +13,7 @@ import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DrivetrainControl;
 import frc.robot.commands.RunSpinner;
 import frc.robot.commands.RunSpinnerWithJoystick;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.spinner.*;
 import frc.robot.subsystems.drivetrain.*;
 import frckit.simulation.devices.SimTimer;
@@ -95,9 +96,11 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    // return new SequentialCommandGroup(new RunSpinner(spinner,
+    return new SequentialCommandGroup(new DriveDistance(drivetrain, 60), new TurnToAngle(drivetrain, Math.PI),
+        new DriveDistance(drivetrain, 60));
     // 1).withTimeout(5.0), new WaitCommand(5.0),
     // new RunSpinner(spinner, -1));
-    return new DriveDistance(drivetrain, 60);
+    // return new DriveDistance(drivetrain, 60);
+    // return new TurnToAngle(drivetrain, Math.PI);
   }
 }

@@ -9,15 +9,19 @@ package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.SerialPort;
 
 /**
  * Add your docs here.
  */
 public class DrivetrainIOReal implements DrivetrainIO {
 
-    private static final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
+    private static final double CONVERT_TO_RADS = 180 / Math.PI;
 
+    private static final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
 
     private SimpleMotorFeedforward leftModel = new SimpleMotorFeedforward(0.641, 0.245, 0.0149);
     private SimpleMotorFeedforward rightModel = new SimpleMotorFeedforward(0.626, 0.242, 0.0072);
@@ -29,6 +33,8 @@ public class DrivetrainIOReal implements DrivetrainIO {
     TalonSRX rightLeaderMotor = new TalonSRX(3);
     TalonSRX leftFollowerMotor = new TalonSRX(2);
     TalonSRX rightFollowerMotor = new TalonSRX(4);
+
+    private AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 
     @Override
     public void setup() {
@@ -70,6 +76,8 @@ public class DrivetrainIOReal implements DrivetrainIO {
         leftLeaderMotor.configVelocityMeasurementWindow(1, 1000);
         rightLeaderMotor.configVelocityMeasurementWindow(1, 1000);
 
+        gyro.zeroYaw();
+
     }
 
     @Override
@@ -97,4 +105,8 @@ public class DrivetrainIOReal implements DrivetrainIO {
         return rightLeaderMotor.getSelectedSensorPosition() * TICKS_TO_RAD;
 
     }
+
+    public double getGyroRadians() {
+        return gyro.getAngle() * CONVERT_TO_RADS;
+    };
 }
