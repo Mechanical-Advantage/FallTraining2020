@@ -25,6 +25,6 @@ public final class SimulatorMain {
    * If you change your main robot class, change the parameter type.
    */
   public static void main(String... args) {
-    ExternalSimLauncher.launch("albus.local", 24601, Robot.class);
+    ExternalSimLauncher.launch("127.0.0.1", 24601, Robot.class);
   }
 }
