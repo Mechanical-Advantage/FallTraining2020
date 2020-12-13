@@ -43,4 +43,8 @@ public interface DriveTrainIO {
     public default double getRightOutputVoltage() {
         return 0;
     };
+
+    public default double getGyroRadians() {
+        return 0;
+    }
 }

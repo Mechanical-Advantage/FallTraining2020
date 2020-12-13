@@ -23,6 +23,7 @@ public class DriveTrain extends SubsystemBase {
   private double rightOutputVoltage;
   private double leftVelocity;
   private double rightVelocity;
+  private double gyroRadians;
 
   /**
    * Creates a new DriveTrain.
@@ -43,6 +44,7 @@ public class DriveTrain extends SubsystemBase {
     rightVelocityRadiansPerSecond = io.getRightVelocityRadiansPerSecond();
     leftOutputVoltage = io.getLeftOutputVoltage();
     rightOutputVoltage = io.getRightOutputVoltage();
+    gyroRadians = io.getGyroRadians();
 
     // Log encoder positions
     SmartDashboard.putNumber("Left Encoder Position (radians)", leftPositionRadians);
@@ -87,5 +89,9 @@ public class DriveTrain extends SubsystemBase {
 
   public double getRightOutputVoltage() {
     return rightOutputVoltage;
+  }
+
+  public double getGyroRadians() {
+    return gyroRadians;
   }
 }

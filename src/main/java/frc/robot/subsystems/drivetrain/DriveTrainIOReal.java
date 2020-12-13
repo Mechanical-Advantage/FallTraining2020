@@ -14,6 +14,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SerialPort;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
@@ -26,6 +28,9 @@ public class DriveTrainIOReal implements DriveTrainIO {
     TalonSRX rightMaster = new TalonSRX(3);
     TalonSRX rightFollower = new TalonSRX(4);
 
+    private AHRS ahrs = new AHRS(SerialPort.Port.kUSB);
+
+    private static final double DEGREES_TO_RAD = Math.PI / 180;
     private static final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
     private static final double HUNDRED_MS_TO_S = 10.0;
 
@@ -37,6 +42,8 @@ public class DriveTrainIOReal implements DriveTrainIO {
 
     @Override
     public void setup() {
+        ahrs.zeroYaw();
+
         leftMaster.configFactoryDefault();
         leftMaster.setInverted(false);
         leftMaster.configVoltageCompSaturation(12);
@@ -121,5 +128,10 @@ public class DriveTrainIOReal implements DriveTrainIO {
     @Override
     public double getRightOutputVoltage() {
         return rightMaster.getMotorOutputVoltage();
+    }
+
+    @Override
+    public double getGyroRadians() {
+        return ahrs.getAngle() * DEGREES_TO_RAD;
     }
 }
