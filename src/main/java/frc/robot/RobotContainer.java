@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DriveDistance;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.RunSpinner;
 import frc.robot.commands.RunSpinnerWithJoystick;
@@ -92,6 +93,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new DriveDistance(driveTrain, 144);
+    return new SequentialCommandGroup(new DriveDistance(driveTrain, 36), new TurnToAngle(driveTrain, Math.PI / 2),
+        new WaitCommand(2), new DriveDistance(driveTrain, 36), new TurnToAngle(driveTrain, Math.PI / 2),
+        new WaitCommand(2), new DriveDistance(driveTrain, 36), new TurnToAngle(driveTrain, Math.PI / 2),
+        new WaitCommand(2), new DriveDistance(driveTrain, 36), new TurnToAngle(driveTrain, Math.PI / 2));
+    // return new DriveDistance(driveTrain, 60);
+    // return new TurnToAngle(driveTrain, Math.PI / 2);
   }
 }

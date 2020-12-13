@@ -13,18 +13,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.drivetrain.DriveTrain;
 
-public class DriveDistance extends CommandBase {
+public class TurnToAngle extends CommandBase {
   private final DriveTrain driveTrain;
-  private final double targetDistanceInches;
+  private final double targetAngleRadians;
   private final PIDController controller;
 
   /**
    * Creates a new DriveDistance.
    */
-  public DriveDistance(DriveTrain driveTrain, double targetDistanceInches) {
+  public TurnToAngle(DriveTrain driveTrain, double targetDistanceInches) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
-    this.targetDistanceInches = targetDistanceInches;
+    this.targetAngleRadians = targetDistanceInches;
     addRequirements(driveTrain);
 
     final double kp;
@@ -33,17 +33,17 @@ public class DriveDistance extends CommandBase {
     final double tolerance;
     switch (Constants.getRobot()) {
       case SIM_NOTBOT:
-        kp = 6;
+        kp = 120;
         ki = 0;
-        kd = 2;
-        tolerance = 0.5;
+        kd = 8;
+        tolerance = 0.015;
         break;
 
       default:
-        kp = 3;
+        kp = 40;
         ki = 0;
-        kd = 0;
-        tolerance = 0.5;
+        kd = 1;
+        tolerance = 0.02;
         break;
     }
 
@@ -51,23 +51,19 @@ public class DriveDistance extends CommandBase {
     controller.setTolerance(tolerance);
   }
 
-  private double getDistance() {
-    return (driveTrain.getLeftPositionInches() + driveTrain.getLeftPositionInches()) / 2;
-  }
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    controller.setSetpoint(getDistance() + targetDistanceInches);
+    controller.setSetpoint(driveTrain.getGyroRadians() + targetAngleRadians);
     controller.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double velocity = controller.calculate(getDistance());
-    driveTrain.setVelocityInchesPerSecond(velocity, velocity);
-    SmartDashboard.putNumber("Drive Distance Error (inches)", controller.getPositionError());
+    double velocity = controller.calculate(driveTrain.getGyroRadians());
+    driveTrain.setVelocityInchesPerSecond(velocity, velocity * -1);
+    SmartDashboard.putNumber("Turn to Angle Error (radians)", controller.getPositionError());
   }
 
   // Called once the command ends or is interrupted.
