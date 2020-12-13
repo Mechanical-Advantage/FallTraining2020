@@ -43,10 +43,10 @@ public class DriveDistance extends CommandBase {
       tolerance = 0.1;
       break;
     case ROBOT_NOTBOT:
-      Kp = 1;
+      Kp = 5;
       Ki = 0;
-      Kd = 0;
-      tolerance = 0.0;
+      Kd = 0.25;
+      tolerance = 0.25;
       break;
     default:
       Kp = 1;

@@ -84,6 +84,7 @@ public class DrivetrainIOReal implements DrivetrainIO {
     public void setOutputVolts(double leftVoltage, double rightVoltage) {
         leftLeaderMotor.set(ControlMode.PercentOutput, leftVoltage / 12);
         rightLeaderMotor.set(ControlMode.PercentOutput, rightVoltage / 12);
+        System.out.println(leftVoltage);
     }
 
     @Override

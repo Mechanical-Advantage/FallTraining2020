@@ -54,11 +54,11 @@ public class OI {
     }
 
     public double getLeftDrivetrain() {
-        return controller.getRawAxis(1);
+        return controller.getRawAxis(1) * -1;
     }
 
     public double getRightDrivetrain() {
-        return controller.getRawAxis(5);
+        return controller.getRawAxis(5) * -1;
     }
 
 }

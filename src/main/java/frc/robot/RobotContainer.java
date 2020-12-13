@@ -96,8 +96,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new SequentialCommandGroup(new DriveDistance(drivetrain, 60), new TurnToAngle(drivetrain, Math.PI),
-        new DriveDistance(drivetrain, 60));
+    // return new SequentialCommandGroup(new DriveDistance(drivetrain, 60), new
+    // TurnToAngle(drivetrain, Math.PI),
+    return new DriveDistance(drivetrain, 72);
     // 1).withTimeout(5.0), new WaitCommand(5.0),
     // new RunSpinner(spinner, -1));
     // return new DriveDistance(drivetrain, 60);
