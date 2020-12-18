@@ -26,6 +26,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final Spinner spinner;
+  private Drivetrain drivetrain;
   private final StoredDoubleSupplier timestamp;
 
   /**
@@ -37,12 +38,14 @@ public class RobotContainer {
     switch (Constants.getRobot()) {
       case SIM_NOTBOT:
         spinner = new Spinner(new SpinnerIOSim());
+        drivetrain = new Drivetrain (new DrivetrainIOSim());
         timestamp = new StoredDoubleSupplier(SimTimer::getTimestampSeconds);
         break;
 
       default:
         spinner = new Spinner(new SpinnerIO() {
         });
+        drivetrain = new Drivetrain (new DrivetrainIO (){});
         timestamp = new StoredDoubleSupplier(() -> 0.0);
     }
 
@@ -61,6 +64,7 @@ public class RobotContainer {
    */
   private void configureInputs() {
     spinner.setDefaultCommand(new RunSpinner(spinner));
+    drivetrain.setDefaultCommand (new DriveWithJoystick(drivetrain, oi:: getLeftDriveStick, oi:: getRightDriveStick));
   }
 
   /**

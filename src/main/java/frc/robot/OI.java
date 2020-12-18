@@ -30,5 +30,7 @@ public class OI {
     public Trigger getRunForwardsFastButton() {
         return runForwardsFastButton;
     }
+    public double getLeftDriveStick () { controller.getRawAxis (1) ;}
+    public double getRightDriveStick () { controller.getRawAxis (5) ;}
 }
 //tester
