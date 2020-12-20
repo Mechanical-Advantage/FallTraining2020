@@ -39,11 +39,18 @@ public class TurnToAngle extends CommandBase {
         tolerance = 0.015;
         break;
 
-      default:
+      case ROBOT_NOTBOT:
         kp = 40;
         ki = 0;
         kd = 1;
         tolerance = 0.02;
+        break;
+
+      default:
+        kp = 0;
+        ki = 0;
+        kd = 0;
+        tolerance = 0;
         break;
     }
 
