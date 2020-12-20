@@ -12,12 +12,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.util.TunableNumber;
 
 public class TurnToAngle extends CommandBase {
 
   private final Drivetrain drivetrain;
   private PIDController pidController;
   private final double turnAngle;
+
+  private TunableNumber Kp = new TunableNumber("TurnToAngle/Kp");
+  private TunableNumber Ki = new TunableNumber("TurnToAngle/Ki");
+  private TunableNumber Kd = new TunableNumber("TurnToAngle/Kd");
+  private TunableNumber tolerance = new TunableNumber("TurnToAngle/tolerance");
 
   /**
    * Creates a new TurnToAngle.
@@ -28,34 +34,29 @@ public class TurnToAngle extends CommandBase {
     this.turnAngle = turnAngle;
     addRequirements(drivetrain);
 
-    final double Kp;
-    final double Ki;
-    final double Kd;
-    final double tolerance;
-
     switch (Constants.getRobot()) {
     case SIM_NOTBOT:
-      Kp = 120;
-      Ki = 0;
-      Kd = 8;
-      tolerance = 0.01;
+      Kp.setDefault(120);
+      Ki.setDefault(0);
+      Kd.setDefault(8);
+      tolerance.setDefault(0.01);
       break;
     case ROBOT_NOTBOT:
-      Kp = 0;
-      Ki = 0;
-      Kd = 0;
-      tolerance = 0.0;
+      Kp.setDefault(1);
+      Ki.setDefault(0);
+      Kd.setDefault(0);
+      tolerance.setDefault(0);
       break;
     default:
-      Kp = 0;
-      Ki = 0;
-      Kd = 0;
-      tolerance = 0;
+      Kp.setDefault(0);
+      Ki.setDefault(0);
+      Kd.setDefault(0);
+      tolerance.setDefault(0);
     }
 
-    pidController = new PIDController(Kp, Ki, Kd);
+    pidController = new PIDController(Kp.get(), Ki.get(), Kd.get());
 
-    pidController.setTolerance(tolerance);
+    pidController.setTolerance(tolerance.get());
 
   }
 
@@ -63,6 +64,10 @@ public class TurnToAngle extends CommandBase {
   @Override
   public void initialize() {
 
+    if (Constants.tuningMode) {
+      pidController.setPID(Kp.get(), Ki.get(), Kd.get());
+      pidController.setTolerance(tolerance.get());
+    }
     pidController.setSetpoint(drivetrain.getGyroRadians() + turnAngle);
 
   }
@@ -73,7 +78,7 @@ public class TurnToAngle extends CommandBase {
 
     double calculatedVelocity = pidController.calculate(drivetrain.getGyroRadians());
 
-    drivetrain.setVelocityInchesPerSecond(-calculatedVelocity, calculatedVelocity);
+    drivetrain.setVelocityInchesPerSecond(calculatedVelocity, -1 * calculatedVelocity);
     SmartDashboard.putNumber("Gyro Error", pidController.getPositionError());
   }
 

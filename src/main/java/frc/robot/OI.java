@@ -23,6 +23,7 @@ public class OI {
     private Button runBackwardsFastbutton;
     private Button runForwardsSlowButton;
     private Button runBackwardsSlowButton;
+    private Button turn90DegreesButton;
 
     public OI(int id) {
         controller = new Joystick(id);
@@ -30,6 +31,7 @@ public class OI {
         runBackwardsFastbutton = new JoystickButton(controller, 3);
         runForwardsSlowButton = new JoystickButton(controller, 4);
         runBackwardsSlowButton = new JoystickButton(controller, 1);
+        turn90DegreesButton = new JoystickButton(controller, 6);
 
     }
 
@@ -59,6 +61,10 @@ public class OI {
 
     public double getRightDrivetrain() {
         return controller.getRawAxis(5) * -1;
+    }
+
+    public Trigger turn90DegreesButton() {
+        return turn90DegreesButton;
     }
 
 }

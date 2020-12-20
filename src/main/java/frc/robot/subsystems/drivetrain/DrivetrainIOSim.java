@@ -71,7 +71,7 @@ public class DrivetrainIOSim implements DrivetrainIO {
     }
 
     public double getGyroRadians() {
-        return gyro.getYawRadians();
+        return -1 * gyro.getYawRadians();
     };
 
 }

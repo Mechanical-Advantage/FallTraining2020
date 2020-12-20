@@ -83,6 +83,7 @@ public class RobotContainer {
     oi.getRunBackwardsfastButton().whileActiveContinuous(new RunSpinner(spinner, -1));
     oi.getRunForwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, 0.4));
     oi.getRunBackwardsSlowButton().whileActiveContinuous(new RunSpinner(spinner, -0.4));
+    oi.turn90DegreesButton().whenActive(new TurnToAngle(drivetrain, Math.PI / 2));
 
     drivetrain.setDefaultCommand(new DrivetrainControl(drivetrain, oi::getLeftDrivetrain, oi::getRightDrivetrain));
     spinner.setDefaultCommand(new RunSpinnerWithJoystick(spinner, oi::getSpinnerJoystick));
@@ -97,8 +98,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     // return new SequentialCommandGroup(new DriveDistance(drivetrain, 60), new
-    // TurnToAngle(drivetrain, Math.PI),
-    return new DriveDistance(drivetrain, 72);
+    return new TurnToAngle(drivetrain, Math.PI / 2);
+    // return new DriveDistance(drivetrain, 60);
     // 1).withTimeout(5.0), new WaitCommand(5.0),
     // new RunSpinner(spinner, -1));
     // return new DriveDistance(drivetrain, 60);

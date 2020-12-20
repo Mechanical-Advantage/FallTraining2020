@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.SerialPort;
  */
 public class DrivetrainIOReal implements DrivetrainIO {
 
-    private static final double CONVERT_TO_RADS = 180 / Math.PI;
+    private static final double CONVERT_TO_RADS = Math.PI / 180;
 
     private static final double TICKS_TO_RAD = (2.0 * Math.PI) / 1440.0;
 
